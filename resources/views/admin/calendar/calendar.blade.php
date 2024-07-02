@@ -9,98 +9,6 @@
     <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
     <script src="https://kit.fontawesome.com/c609c0bad9.js" crossorigin="anonymous"></script>
 </head>
-        <style>
-            .calendar {
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                gap: 1px;
-                background-color: #ddd;
-                padding: 10px;
-            }
-
-            .day {
-                background-color: #fff;
-                min-height: 100px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 10px;
-                border: 1px solid #ddd;
-                position: relative;
-                cursor: pointer; /* Add cursor pointer for clickable effect */
-            }
-
-            .day-header {
-                background-color: #f2f2f2;
-                font-weight: bold;
-                text-align: center;
-                padding: 10px 0;
-            }
-
-            .appointment {
-                background-color: #f1eaead3;
-                padding: 5px;
-                margin-top: 5px;
-                border-radius: 5px;
-                text-align: center;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .appointment-buttons {
-                margin-top: 5px;
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .appointment-buttons a,
-            .appointment-buttons form {
-                margin-right: 5px;
-                display: inline-block;
-            }
-
-            .container {
-                text-align: center;
-                margin: 20px 0;
-            }
-
-            .alert {
-                text-align: center;
-                margin: 20px 0;
-                padding: 10px;
-                color: white;
-                background-color: green;
-            }
-
-            .hourly-appointments {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: #fff;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                z-index: 100;
-                padding: 10px;
-                max-height: 200px;
-                overflow-y: auto;
-            }
-
-            .day.active .hourly-appointments {
-                display: block;
-            }
-
-            .hourly-slot {
-                margin-bottom: 5px;
-                padding: 5px;
-                border: 1px solid #ddd;
-            }
-
-            .has-appointments {
-                background-color: #f1eaead3;
-            }
-        </style>
 <body>
     <div class="header">
         <h2><i class="fa-solid fa-calendar-days"></i> Calendar</h2>
@@ -197,7 +105,6 @@
             }
         </script>
 
-    
 </body>
 </html>
 @endsection
