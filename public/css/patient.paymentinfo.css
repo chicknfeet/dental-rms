@@ -22,25 +22,6 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
-.actions {
-    padding: 10px 20px 15px 20px;
-    color: #000;
-    font-family: Helvetica;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.actions input {
-    width: 10%;
-    height: 40px;
-    border-radius: 30px;
-}
-
-.actions .btn {
-    margin-right: 10px;
-}
-
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -64,16 +45,6 @@ thead tr, tbody tr{
     height: 80px;
     padding-left: 30px;
     text-align: left;
-}
-
-/* buttons */
-.update{
-    font-size: 23px;
-    padding-right: 10px;
-}
-
-.delete{
-    font-size: 23px;
 }
 
 /* Styling for pagination */

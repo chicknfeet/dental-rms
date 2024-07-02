@@ -66,15 +66,15 @@ thead tr, tbody tr{
 
 /* buttons */
 .record {
-    font-size: 25px;
+    font-size: 23px;
 }
 
 .update{
-    font-size: 25px;
+    font-size: 23px;
 }
 
 .delete{
-    font-size: 25px;
+    font-size: 23px;
 }
 
 .record, .update {
