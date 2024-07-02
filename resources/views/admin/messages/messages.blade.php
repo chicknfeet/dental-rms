@@ -1,115 +1,83 @@
 <x-app-layout>
 
 @section('content')
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        background-color: #f0f0f0;
-
-    }
-    h1 {
-        text-align: left;
-        font-size: 25px;
-        padding-left: 0.70rem;
-        font-weight: bold;
-    }
-    .chat-container {
-        display: flex;
-        height: calc(100vh - 60px);
-    }
-    .users-list {
-        width: 25%;
-        background-color: #fff;
-        border-right: 1px solid #ddd;
-        overflow-y: auto;
-        padding: 10px;
-    }
-    .user-item {
-        cursor: pointer;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        display: flex;
-        align-items: center;
-    }
-    .user-item:hover, .selected {
-        background-color: #cce5ff;
-    }
-    .user-item img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-    .recent-message {
-        font-size: 12px;
-        color: #666;
-    }
-    .chat-box {
-        width: 75%;
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-    }
-    .chat-messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 10px;
-        display: none; /* Hide all chat panels initially */
-    }
-    .chat-input {
-        display: flex;
-        padding: 10px;
-        border-top: 1px solid #ddd;
-        background-color: #f9f9f9;
-    }
-    .chat-input input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        resize: none;
-        margin-right: 10px;
-    }
-    .chat-input button {
-        width: 10%;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .admin, .others {
-        margin: 10px 0;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    .admin {
-        background-color: #d1e7dd;
-        text-align: right;
-    }
-    .others {
-        background-color: #f8d7da;
-        text-align: left;
-    }
-</style>
-
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/messages.css') }}">
+    <script src="https://kit.fontawesome.com/c609c0bad9.js" crossorigin="anonymous"></script>
+</head>
 <body>
     <div class="chat-container">
         <div class="users-list" id="users">
             <div>
                 <h1>Messages</h1>
             </div>
+            <div>
+                <input class="form-control" type="search" placeholder="Search"  style="width: 100%; border-radius: 2rem;"></input>
+            </div>
+            <br>
             <!-- Sample list of users with photos and recent messages -->
             <div class="user-item" data-username="John Smith">
                 <div>
                     John Smith
                     <div class="recent-message" id="recent-John Smith"></div>
+                </div>
+            </div>
+
+            <div class="user-item" data-username="Emily Johnson">
+                <div>
+                    Emily Johnson
+                    <div class="recent-message" id="recent-Emily Johnson"></div>
+                </div>
+            </div>
+            <div class="user-item" data-username="Michael Rodriguez">
+                <div>
+                    Michael Rodriguez
+                    <div class="recent-message" id="recent-Michael Rodriguez"></div>
+                </div>
+            </div>
+            <div class="user-item" data-username="Sophia Brown">
+                <div>
+                    Sophia Brown
+                    <div class="recent-message" id="recent-Sophia Brown"></div>
+                </div>
+            </div>
+            <div class="user-item" data-username="Liam Williams">
+                <div>
+                    Liam Williams
+                    <div class="recent-message" id="recent-Liam Williams"></div>
+                </div>
+            </div>
+            <div class="user-item" data-username="Emma Johnson">
+                <div>
+                Emma Johnson
+                    <div class="recent-message" id="recent-Emma Johnson"></div>
+                </div>
+            </div>
+            <div class="user-item" data-username="Alexander Lee">
+                <div>
+                Alexander Lee
+                    <div class="recent-message" id="recent-Alexander Lee"></div>
+                </div>
+            </div>
+            <div class="user-item" data-username="Sophia Martinez">
+                <div>
+                Sophia Martinez
+                    <div class="recent-message" id="recent-Sophia Martinez"></div>
+                </div>
+            </div>
+            <div class="user-item" data-username="Noah Taylor">
+                <div>
+                Noah Taylor
+                    <div class="recent-message" id="recent-Noah Taylor"></div>
+                </div>
+            </div>
+            <div class="user-item" data-username="Olivia Brown">
+                <div>
+                Olivia Brown
+                    <div class="recent-message" id="recent-Olivia Brown"></div>
                 </div>
             </div>
         </div>
