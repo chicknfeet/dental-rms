@@ -20,7 +20,7 @@
     @endif
     <div class="actions">
         <a href="{{ route('admin.patient.create') }}" class="btn btn-light"><i class="fa-solid fa-user-plus"></i> New</a>
-        <input href="{{ route('admin.patient.create') }}" class="form-control" type="search" placeholder="Search"  style="width: 10%;"></input>
+        <input href="{{ route('admin.patient.create') }}" class="form-control" type="search" placeholder="Search"></input>
     </div>
         
     <table class="table">

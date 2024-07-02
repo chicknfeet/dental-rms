@@ -15,6 +15,7 @@
     </div>
     <div class="actions">
         <a href="{{ route('admin.payment.create') }}" class="btn btn-light"><i class="fa-solid fa-cash-register"></i> New</a>
+        <input class="form-control" type="search" placeholder="Search"></input>
     </div>
 
     @if(session('success'))

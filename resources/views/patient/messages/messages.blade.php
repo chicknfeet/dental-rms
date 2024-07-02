@@ -14,8 +14,8 @@
             <div>
                 <h1>Messages</h1>
             </div>
-            <div>
-                <input class="form-control" type="search" placeholder="Search"  style="width: 100%; border-radius: 2rem;"></input>
+            <div class="actions">
+                <input class="form-control" type="search" placeholder="Search"></input>
             </div>
             <br>
             <!-- Sample list of users with photos and recent messages -->

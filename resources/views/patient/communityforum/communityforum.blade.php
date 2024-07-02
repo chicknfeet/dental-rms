@@ -23,7 +23,7 @@
                         <td >
                             <a href="{{ route('patient.showComment', $communityforum->id) }}" class="btn btn-info">View Comment</a>
                             <a href="{{ route('patient.updateCommunityforum', $communityforum->id) }}" class="btn btn-warning">Update</a>
-                            <form method="post" action="{{ route('deleteCommunityforum', $communityforum->id) }}" style="display: inline;">
+                            <form method="post" action="{{ route('patient.deleteCommunityforum', $communityforum->id) }}" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
