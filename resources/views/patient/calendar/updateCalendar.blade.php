@@ -22,7 +22,7 @@
             </ul>
         </div>
     @endif
-    <form method="post" action="{{ route('patient.updatedCalendar', $calendar->id) }}">
+    <form class="form" method="post" action="{{ route('patient.updatedCalendar', $calendar->id) }}">
         @csrf
         @method('PUT')
         <div class="form-group">

@@ -23,7 +23,7 @@
     @error('date')
         <div style="color:red">{{ $message }}</div>
     @enderror
-    <form method="post" action="{{ route('patient.calendar.store') }}">
+    <form class="form" method="post" action="{{ route('patient.calendar.store') }}">
         @csrf
         <div class="form-group">
             <label for="name" class="form-label">Name</label>
