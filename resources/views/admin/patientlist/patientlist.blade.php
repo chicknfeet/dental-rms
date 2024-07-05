@@ -7,11 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/patientlist.css') }}">
-    <script src="https://kit.fontawesome.com/c609c0bad9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <div class="header">
-        <h2><i class="fa-solid fa-users"></i> Patient List</h2>
+        <h4><i class="fa-solid fa-users"></i> Patient List</h4>
     </div>
     @if(session('success'))
         <div class="alert alert-success">
@@ -19,7 +20,7 @@
         </div>
     @endif
     <div class="actions">
-        <a href="{{ route('admin.patient.create') }}" class="btn btn-light"><i class="fa-solid fa-user-plus"></i> New</a>
+        <a href="{{ route('admin.patient.create') }}" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> New</a>
         <input href="{{ route('admin.patient.create') }}" class="form-control" type="search" placeholder="Search"></input>
     </div>
         
@@ -42,12 +43,12 @@
                     <td>{{ $patient->phone}}</td>
                     <td>{{ $patient->address}}</td>
                     <td>
-                        <a href="{{ route('admin.showRecord', $patient->id) }}" class="btn btn-light" data-toggle="tooltip" title="Records"><i class="fa-solid fa-file-lines"></i></a>
-                        <a href="{{ route('admin.updatePatient', $patient->id) }}" class="btn btn-light" title="Update"><i class="fa-solid fa-pen"></i></a>
+                        <a href="{{ route('admin.showRecord', $patient->id) }}" class="btn btn-light" data-toggle="tooltip"><i class="fa-regular fa-file-lines record"></i> Records/Details</a>
+                        <a href="{{ route('admin.updatePatient', $patient->id) }}" class="btn btn-light"><i class="fa-solid fa-pen update"></i> Edit</a>
                         <form method="post" action="{{ route('admin.deletePatient', $patient->id) }}" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-light" title="Delete" onclick="return confirm('Are you sure you want to delete this patient?')"><i class="fa-solid fa-trash"></i></button>
+                            <button type="submit" style="color:red;" class="btn btn-light" onclick="return confirm('Are you sure you want to delete this patient?')"><i class="fa-regular fa-trash-can delete"></i> Delete</button>
                         </form>
                     </td>
                 </tr>

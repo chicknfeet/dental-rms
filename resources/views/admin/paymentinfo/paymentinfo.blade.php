@@ -7,14 +7,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/paymentinfo.css') }}">
-    <script src="https://kit.fontawesome.com/c609c0bad9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <div class="header">
-        <h2><i class="fa-solid fa-money-bills"></i> Payment Info</h2>
+        <h4><i class="fa-solid fa-money-bills"></i> Payment Info</h4>
     </div>
     <div class="actions">
-        <a href="{{ route('admin.payment.create') }}" class="btn btn-light"><i class="fa-solid fa-cash-register"></i> New</a>
+        <a href="{{ route('admin.payment.create') }}" class="btn btn-primary"><i class="fa-solid fa-cash-register"></i> New</a>
         <input class="form-control" type="search" placeholder="Search"></input>
     </div>
 
@@ -29,8 +30,8 @@
             <tr>
                 <th>Patient</th>
                 <th>Description</th>
-                <th><i class="fa-solid fa-peso-sign"></i> Amount</th>
-                <th><i class="fa-solid fa-peso-sign"></i> Balance</th>
+                <th>Amount</th>
+                <th>Balance</th>
                 <th>Date</th>
             </tr>
         </thead>
@@ -43,11 +44,11 @@
                     <td><i class="fa-solid fa-peso-sign"></i>{{ $payment->balance }}</td>
                     <td>{{ $payment->date }}</td>
                     <td>
-                        <a href="{{ route('admin.updatePayment', $payment->id) }}" class="btn btn-light" title="Update"><i class="fa-solid fa-pen"></i></a>
+                        <a href="{{ route('admin.updatePayment', $payment->id) }}" class="btn btn-light"><i class="fa-solid fa-pen update"></i> Edit</a>
                         <form method="post" action="{{ route('admin.deletePayment', $payment->id) }}" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-light" title="Delete" onclick="return confirm('Are you sure you want to delete this payment?')"><i class="fa-solid fa-trash"></i></button>
+                            <button type="submit" style="color:red;" class="btn btn-light" onclick="return confirm('Are you sure you want to delete this payment?')"><i class="fa-regular fa-trash-can delete"></i> Delete</button>
                         </form>
                     </td>
                 </tr>

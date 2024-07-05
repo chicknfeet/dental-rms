@@ -6,157 +6,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/messages.css') }}">
-    <script src="https://kit.fontawesome.com/c609c0bad9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
 </head>
 <body>
     <div class="chat-container">
         <div class="users-list" id="users">
             <div>
-                <h1>Messages</h1>
+                <h1><i class="fa-regular fa-comment-dots"></i> Messages</h1>
             </div>
             <div class="actions">
                 <input class="form-control" type="search" placeholder="Search"></input>
             </div>
             <br>
-            <!-- Sample list of users with photos and recent messages -->
-            <div class="user-item" data-username="John Smith">
-                <div>
-                    John Smith
-                    <div class="recent-message" id="recent-John Smith"></div>
+            @foreach ($users as $user)
+                <div class="user-item" data-username="{{ $user->name }}" data-userid="{{ $user->id }}">
+                    <div>
+                        {{ $user->name }}
+                        <div class="recent-message" id="recent-{{ $user->name }}"></div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="user-item" data-username="Emily Johnson">
-                <div>
-                    Emily Johnson
-                    <div class="recent-message" id="recent-Emily Johnson"></div>
-                </div>
-            </div>
-            <div class="user-item" data-username="Michael Rodriguez">
-                <div>
-                    Michael Rodriguez
-                    <div class="recent-message" id="recent-Michael Rodriguez"></div>
-                </div>
-            </div>
-            <div class="user-item" data-username="Sophia Brown">
-                <div>
-                    Sophia Brown
-                    <div class="recent-message" id="recent-Sophia Brown"></div>
-                </div>
-            </div>
-            <div class="user-item" data-username="Liam Williams">
-                <div>
-                    Liam Williams
-                    <div class="recent-message" id="recent-Liam Williams"></div>
-                </div>
-            </div>
-            <div class="user-item" data-username="Emma Johnson">
-                <div>
-                Emma Johnson
-                    <div class="recent-message" id="recent-Emma Johnson"></div>
-                </div>
-            </div>
-            <div class="user-item" data-username="Alexander Lee">
-                <div>
-                Alexander Lee
-                    <div class="recent-message" id="recent-Alexander Lee"></div>
-                </div>
-            </div>
-            <div class="user-item" data-username="Sophia Martinez">
-                <div>
-                Sophia Martinez
-                    <div class="recent-message" id="recent-Sophia Martinez"></div>
-                </div>
-            </div>
-            <div class="user-item" data-username="Noah Taylor">
-                <div>
-                Noah Taylor
-                    <div class="recent-message" id="recent-Noah Taylor"></div>
-                </div>
-            </div>
-            <div class="user-item" data-username="Olivia Brown">
-                <div>
-                Olivia Brown
-                    <div class="recent-message" id="recent-Olivia Brown"></div>
-                </div>
-            </div>
+            @endforeach
         </div>
         <div class="chat-box" id="chat-box">
-            <div id="chat-panel-John Smith" class="chat-messages">
-                <!-- Chat messages for John Smith -->
-                <div class="others">
-                    <p>John Smith</p>
-                    <p>Hi!</p>
+            @foreach ($users as $user)
+                <div id="chat-panel-{{ $user->name }}" class="chat-messages">
+                    <!-- Chat messages for {{ $user->name }} -->
+                    @foreach ($messages as $message)
+                        @if ($message->sender_id == auth()->id() && $message->recipient_id == $user->id)
+                            <div class="admin">
+                                <p>You</p>
+                                <p>{{ $message->message }}</p>
+                                </div>
+                        @elseif ($message->sender_id == $user->id && $message->recipient_id == auth()->id())
+                            <div class="others">
+                                <p>{{ $user->name }}</p>
+                                <p>{{ $message->message }}</p>
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
-                @foreach ($messages as $message)
-                    <div class="admin">
-                        <tr>
-                            <td><p>You</p></td>
-                            <td>{{ $message->message }}</td>
-                        </tr>
-                    </div>
-                @endforeach
-            </div>
+            @endforeach
 
             <form method="post" action="{{ route('admin.messages.store') }}" class="chat-input">
                 @csrf
+                <input type="hidden" id="recipient_id" name="recipient_id" value="">
                 <input placeholder="Type your message..." rows="3" type="text" class="form-control" id="message" name="message" required>
-                <button onclick="sendMessage()">Send</button>
+                <button type="submit">Send</button>
             </form>
         </div>
-
     </div>
 
 <script>
-    let selectedUser = 'John Smith'; // Default selected user
-
     document.addEventListener('DOMContentLoaded', function() {
         // Add click event listeners to user items
         document.querySelectorAll('.user-item').forEach(item => {
             item.addEventListener('click', function() {
-                selectUser(item.dataset.username);
+                selectUser(item.dataset.username, item.dataset.userid);
             });
         });
 
         // Select the default user
-        selectUser(selectedUser);
+        let firstUser = document.querySelector('.user-item');
+        if (firstUser) {
+            selectUser(firstUser.dataset.username, firstUser.dataset.userid);
+        }
     });
 
-    function selectUser(username) {
+    function selectUser(username, userid) {
         selectedUser = username;
         document.querySelectorAll('.user-item').forEach(item => {
             item.classList.remove('selected');
         });
         document.querySelector(`.user-item[data-username="${username}"]`).classList.add('selected');
         showChatPanel(username);
-    }
 
-    function sendMessage() {
-        let message = document.getElementById('message').value;
-        let senderName = document.getElementById('senderName').value;
-
-        // Add the message to the selected chat panel
-        let chatPanel = document.getElementById(`chat-panel-${selectedUser}`);
-        let messageDiv = document.createElement('div');
-        messageDiv.className = 'you'; // Assuming sender is always 'You'
-
-        let nameP = document.createElement('p');
-        nameP.textContent = 'You';
-
-        let messageP = document.createElement('p');
-        messageP.textContent = message;
-
-        messageDiv.appendChild(nameP);
-        messageDiv.appendChild(messageP);
-
-        chatPanel.appendChild(messageDiv);
-
-        // Update recent message display in user list
-        let recentMessage = message.length > 20 ? message.substring(0, 20) + '...' : message; // Limit message length for display
-        document.getElementById(`recent-${selectedUser}`).textContent = `You: ${recentMessage}`;
-
-        // Clear the message input after sending
-        document.getElementById('message').value = '';
+        // Set the recipient_id in the form
+        document.getElementById('recipient_id').value = userid;
     }
 
     function showChatPanel(username) {
@@ -169,7 +94,7 @@
         let chatPanel = document.getElementById(`chat-panel-${username}`);
         if (chatPanel) {
             chatPanel.style.display = 'block';
-        }
+        } 
     }
 </script>
     

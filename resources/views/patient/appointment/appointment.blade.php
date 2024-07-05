@@ -7,11 +7,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/appointment.css') }}">
-    <script src="https://kit.fontawesome.com/c609c0bad9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <div class="header">
-        <h2><i class="fa-regular fa-calendar-check"></i> Appointment</h2>
+        <h4><i class="fa-regular fa-calendar-check"></i> Appointment</h4>
     </div>
     
     @if(session('success'))
@@ -41,7 +43,7 @@
             <input type="time" class="form-control" style="width: 25%;" id="time" name="time" required>
         </div>
         <div class="btn-container">
-            <button type="submit" class="btn btn-light"><i class="fa-regular fa-calendar-check"></i> Appoint</button>  
+            <button type="submit" class="btn btn-primary"><i class="fa-regular fa-calendar-check"></i> Appoint</button>  
         </div>
     </form>
 </body>

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2>Update Patient</h2>
+        <h4>Update Patient</h4>
         <form method="post" action="{{ route('admin.record.updated', [$patientlist->id, $patient->id]) }}">
 
             @csrf

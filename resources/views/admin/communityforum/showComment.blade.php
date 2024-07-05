@@ -3,7 +3,7 @@
 @section('content')
     <div class="container"> 
 
-        <h2>{{ $communityforums->topic }}</h2>
+        <h4>{{ $communityforums->topic }}</h4>
         <table class="table table-sm">
             <thead>
                 <tr>

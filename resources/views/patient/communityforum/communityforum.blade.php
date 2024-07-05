@@ -7,11 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/communityforum.css') }}">
-    <script src="https://kit.fontawesome.com/c609c0bad9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <div class="header">
-        <h2>Community Forum</h2>
+        <h4><i class="fa-regular fa-comments"></i> Community Forum</h4>
     </div>
     <div class="container mt-4">
         @if(session('success'))
@@ -21,13 +22,13 @@
         @endif
 
         <div class="form-container">
-            <h3>Post a New Topic</h3>
-            <form action="{{ route('admin.communityforum.store') }}" method="POST" id="postTopicForm">
+            <h4>Post a New Topic</h4>
+            <form action="{{ route('patient.communityforum.store') }}" method="POST" id="postTopicForm">
                 @csrf
                 <div class="input-group mb-3">
                     <textarea type="text" class="form-control" id="topic" name="topic" placeholder="Type here..." required></textarea>
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-light">Post Topic</button>
+                        <button type="submit" class="btn btn-primary">Post Topic</button>
                     </div>
                 </div>
             </form>
@@ -46,12 +47,12 @@
                         <p>{{ $communityforum->topic }}</p>
                     </div>
                     <div class="tweet-actions">
-                        <a href="{{ route('admin.showComment', $communityforum->id) }}" class="btn-action">View Comment</a>
-                        <a href="{{ route('admin.updateCommunityforum', $communityforum->id) }}" class="btn-action">Update</a>
-                        <form method="post" action="{{ route('admin.deleteCommunityforum', $communityforum->id) }}" class="d-inline">
+                        <a href="{{ route('patient.showComment', $communityforum->id) }}" class="btn-action"><i class="fa-regular fa-message"></i> Comment</a>
+                        <a href="{{ route('patient.updateCommunityforum', $communityforum->id) }}" class="btn-action"><i class="fa-solid fa-pen"></i> Edit</a>
+                        <form method="post" action="{{ route('patient.deleteCommunityforum', $communityforum->id) }}" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn-action" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+                            <button type="submit" class="btn-action" onclick="return confirm('Are you sure you want to delete this post?')"><i class="fa-regular fa-trash-can"></i> Delete</button>
                         </form>
                     </div>
                 </div>

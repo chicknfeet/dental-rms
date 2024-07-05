@@ -19,11 +19,11 @@
                                 <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                             </a>
                         @endif
-                        @else
-                            <a href="{{ route('welcome') }}">
-                                <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                            </a>
-                     @endauth
+                    @else
+                        <a href="{{ route('welcome') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        </a>
+                    @endauth
                 </div>
 
                 <!-- Navigation Links -->

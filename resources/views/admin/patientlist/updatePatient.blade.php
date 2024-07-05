@@ -7,11 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/updatepatient.css') }}">
-    <script src="https://kit.fontawesome.com/c609c0bad9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <div class="header">
-        <h2><i class="fa-solid fa-user-pen"></i> Update Patient</h2>
+        <h4><i class="fa-solid fa-user-pen"></i> Update Patient</h4>
     </div>
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -48,7 +49,7 @@
             <input type="text" class="form-control" id="address" name="address" value="{{  old('address', $patient->address) }}" required>
         </div>
         <div class="btn-container">
-            <button type="submit" class="btn btn-light"><i class="fa-solid fa-user-pen"></i> Update</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-user-pen"></i> Save</button>
             <a href="{{ route('admin.patientlist') }}" class="btn btn-light" title="Cancel"><i class="fa-regular fa-rectangle-xmark"></i> Cancel</a>
         </div>
     </form>

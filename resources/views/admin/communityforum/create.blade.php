@@ -21,7 +21,7 @@
     }
 </style>
     <div class="container">
-        <h2>Create Topic</h2>
+        <h4>Create Topic</h4>
             @error('date')
                 <div style="color:red">{{ $message }}</div>
             @enderror

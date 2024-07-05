@@ -7,11 +7,12 @@
     <meta charset="UTF-8">
     <meta description="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/updatecalendar.css') }}">
-    <script src="https://kit.fontawesome.com/c609c0bad9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <div class="header">
-        <h2><i class="fa-solid fa-calendar-days"></i> Update Calendar</h2>
+        <h4><i class="fa-solid fa-calendar-days"></i> Update Calendar</h4>
     </div>
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -41,7 +42,7 @@
             <input type="time" class="form-control" style="width: 25%;" id="time" name="time" value="{{ old('time') }}" required>
         </div>
         <div class="btn-container">
-            <button type="submit" class="btn btn-light"><i class="fa-regular fa-calendar-check"></i> Update</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-regular fa-calendar-check"></i> Update</button>
             <a href="{{ route('admin.calendar') }}" class="btn btn-light"><i class="fa-regular fa-calendar-minus"></i> Cancel</a>
         </div>
     </form>

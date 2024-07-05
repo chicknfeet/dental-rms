@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2>Add Record</h2>
+        <h4>Add Record</h4>
 
         @if(session('success'))
             <div class="alert alert-success" role="alert">
