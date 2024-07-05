@@ -27,9 +27,7 @@ use App\Http\Controllers\dentistrystudent\DentistryStudentCommunityForumControll
 use App\Http\Controllers\dentistrystudent\DentistryStudentCommentController;
 
 use App\Http\Controllers\HomeController;
-
-
-
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -161,9 +159,8 @@ Route::group(['middleware' => ['auth', 'checkUserType:dentistrystudent']], funct
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
