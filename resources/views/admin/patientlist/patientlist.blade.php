@@ -21,12 +21,16 @@
     @endif
     <div class="actions">
         <a href="{{ route('admin.patient.create') }}" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> New</a>
-        <input href="{{ route('admin.patient.create') }}" class="form-control" type="search" placeholder="Search"></input>
+        
+        <form action="{{ route('admin.search') }}" method="GET">
+            <input type="text" name="query" placeholder="Search">
+        </form>
     </div>
         
     <table class="table">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Gender</th>
                 <th>Age</th>
@@ -37,6 +41,7 @@
         <tbody>
             @foreach ($patientlist as $patient)
                 <tr>
+                    <td>{{ $patient->id }}</td>
                     <td>{{ $patient->name }}</td>
                     <td>{{ $patient->gender }}</td>
                     <td>{{ $patient->age }}</td>

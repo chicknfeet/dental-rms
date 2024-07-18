@@ -75,11 +75,17 @@ class AdminPatientListController extends Controller
             ->with('success', 'Patient updated successfully!');
     }
 
-    public function showRecord($patientlistId)
+    public function search(Request $request)
     {
-        $patientlist = Patientlist::findOrFail($patientlistId);
-        $records = $patientlist->records;
+        $query = $request->input('query');
 
-        return view('admin.patientlist.showRecord', compact('patientlist', 'records'));
+        $patientlist = Patientlist::where('name', 'like', "%$query%")
+                                  ->orWhere('gender', 'like', "%$query%")
+                                  ->orWhere('age', 'like', "%$query%")
+                                  ->orWhere('phone', 'like', "%$query%")
+                                  ->orWhere('address', 'like', "%$query%")
+                                  ->paginate(10);
+
+        return view('admin.patientlist.patientlist', compact('patientlist'));
     }
 }

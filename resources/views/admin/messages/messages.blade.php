@@ -15,7 +15,9 @@
                 <h1><i class="fa-regular fa-comment-dots"></i> Messages</h1>
             </div>
             <div class="actions">
-                <input class="form-control" type="search" placeholder="Search"></input>
+                <form action="{{ route('admin.messages.search') }}" method="GET">
+                    <input class="form-control" type="text" name="query" placeholder="Search">
+                </form>
             </div>
             <br>
             @foreach ($users as $user)

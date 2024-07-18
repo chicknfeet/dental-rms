@@ -32,8 +32,8 @@ body {
 }
 
 .actions input {
-    width: 10%;
-    height: 40px;
+    width: 100%;
+    height: 7vh;
     border-radius: 30px;
 }
 
