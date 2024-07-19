@@ -74,4 +74,18 @@ class AdminPaymentInfoController extends Controller
         return redirect()->route('admin.paymentinfo')
             ->with('success', 'Payment updated successfully!');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $paymentinfo = PaymentInfo::where('patient', 'like', "%$query%")
+                                  ->orWhere('description', 'like', "%$query%")
+                                  ->orWhere('amount', 'like', "%$query%")
+                                  ->orWhere('balance', 'like', "%$query%")
+                                  ->orWhere('date', 'like', "%$query%")
+                                  ->paginate(10);
+
+        return view('admin.paymentinfo.paymentinfo', compact('paymentinfo'));
+    }
 }
