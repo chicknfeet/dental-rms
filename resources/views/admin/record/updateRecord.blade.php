@@ -1,6 +1,5 @@
 <x-app-layout>
 
-@section('content')
     <div class="container">
         <h4>Update Patient</h4>
         <form method="post" action="{{ route('admin.record.updated', [$patientlist->id, $patient->id]) }}">
@@ -18,7 +17,6 @@
 
         <a href="{{ route('admin.showRecord', $patientlist->id) }}" class="btn btn-secondary mt-3">Back to View Record</a>
     </div>
-@endsection
 
 @section('title')
     Update Record

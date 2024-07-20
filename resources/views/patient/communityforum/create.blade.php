@@ -1,6 +1,5 @@
 <x-app-layout>
 
-@section('content')
 <style>
     div {
         background-color: #f8f9fa;
@@ -36,7 +35,6 @@
 
         <a href="{{ route('patient.communityforum') }}" class="btn btn-info mt-3">Back</a>
     </div>
-@endsection
 
 @section('title')
     Create Post

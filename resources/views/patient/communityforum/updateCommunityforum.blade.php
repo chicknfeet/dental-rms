@@ -1,6 +1,5 @@
 <x-app-layout>
 
-@section('content')
     <div class="container">
         <h2>Update Topic</h2>
         @if ($errors->any())
@@ -22,7 +21,6 @@
         </form>
         <a href="{{ route('patient.communityforum') }}" class="btn btn-info mt-3">Cancel</a>
     </div>
-@endsection
 
 @section('title')
     Update Post

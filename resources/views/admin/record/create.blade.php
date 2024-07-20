@@ -1,6 +1,5 @@
 <x-app-layout>
 
-@section('content')
     <div class="container">
         <h4>Add Record</h4>
 
@@ -19,7 +18,6 @@
             <button type="submit" class="btn btn-primary">Upload File</button>
         </form>
     </div>
-@endsection
 
 @section('title')
     Add Record

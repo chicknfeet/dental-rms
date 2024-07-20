@@ -1,6 +1,5 @@
 <x-app-layout>
 
-@section('content')
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -102,7 +101,6 @@
     
 </html>
 </body>
-@endsection
 
 @section('title')
     Messages

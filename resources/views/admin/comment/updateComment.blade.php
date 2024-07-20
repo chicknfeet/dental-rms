@@ -1,6 +1,5 @@
 <x-app-layout>
 
-@section('content')
     <div class="container">
         <h2>Update Comment</h2>
         <form method="post" action="{{ route('admin.comment.updated', [$communityforums->id, $communityforum->id]) }}">
@@ -18,7 +17,6 @@
 
         <a href="{{ route('admin.showComment', $communityforums->id) }}" class="btn btn-secondary mt-3">Back to View Comment</a>
     </div>
-@endsection
 
 @section('title')
     Update Comment

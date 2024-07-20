@@ -1,6 +1,5 @@
 <x-app-layout>
 
-@section('content')
     <div class="container"> 
 
         <h2>{{ $communityforums->topic }}</h2>
@@ -56,7 +55,6 @@
 
         <a href="{{ route('patient.communityforum') }}" class="btn btn-secondary mt-3">Back</a>
     </div>
-@endsection
 
 @section('title')
     Comment

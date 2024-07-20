@@ -1,6 +1,5 @@
 <x-app-layout>
 
-@section('content')
 <style>
     div {
         background-color: #f8f9fa;
@@ -34,7 +33,6 @@
             <button class="btn btn-primary">Comment</button>
         </form>
     </div>
-@endsection
 
 @section('title')
     Create Comment
