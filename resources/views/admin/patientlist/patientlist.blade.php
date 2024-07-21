@@ -8,23 +8,27 @@
     <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
 </head>
 <body class="min-h-screen bg-gray-200" style="margin: 0; padding: 0; font-family: Helvetica;">
+
     <div style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
         <h4><i class="fa-solid fa-users"></i> Patient List</h4>
     </div>
+    
+    <div class="actions px-6 py-4 flex justify-between items-center">
+        <a href="{{ route('admin.patient.create') }}" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white"><i class="fa-solid fa-user-plus"></i> New</a>
+        
+        <form action="{{ route('admin.search') }}" method="GET">
+            <input type="text" name="query" placeholder="Search" class="w-full h-10 px-3 rounded-full focus:ring-2 border border-gray-300 focus:outline-none focus:border-blue-500">
+        </form>
+    </div>
+
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
-    <div class="actions px-6 py-4 flex justify-between items-center">
-        <a href="{{ route('admin.patient.create') }}" class="px-4 py-2 rounded bg-blue-500 text-white"><i class="fa-solid fa-user-plus"></i> New</a>
-        
-        <form action="{{ route('admin.search') }}" method="GET">
-            <input type="text" name="query" placeholder="Search" class="w-full h-10 px-3 rounded-full border border-gray-300 focus:outline-none focus:border-blue-500">
-        </form>
-    </div>
         
     <div class="overflow-x-auto">
+
         <table class="min-w-full bg-white">
             <thead>
                 <tr>
@@ -38,12 +42,12 @@
             <tbody>
                 @foreach ($patientlist as $patient)
                     <tr style="border-top: 7px solid #f1eaead3;">
-                        <td  class="px-6 py-4 whitespace-nowrap">{{ $patient->name }}</td>
-                        <td  class="px-6 py-4 whitespace-nowrap">{{ $patient->gender }}</td>
-                        <td  class="px-6 py-4 whitespace-nowrap">{{ $patient->age }}</td>
-                        <td  class="px-6 py-4 whitespace-nowrap">{{ $patient->phone}}</td>
-                        <td  class="px-6 py-4 whitespace-nowrap">{{ $patient->address}}</td>
-                        <td  class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $patient->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $patient->gender }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $patient->age }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $patient->phone}}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $patient->address}}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <a href="{{ route('admin.showRecord', $patient->id) }}" class="px-4 py-2 rounded hover:bg-gray-200 transition duration-300 text-base"><i class="fa-regular fa-file-lines"></i> Records</a>
                             <a href="{{ route('admin.updatePatient', $patient->id) }}" class="px-4 py-2 rounded hover:bg-gray-200 transition duration-300 text-base"><i class="fa-solid fa-pen"></i> Edit</a>
                             
@@ -58,8 +62,6 @@
                 @endforeach
             </tbody>
         </table>
-    
-    
         
         <!-- pagination here -->
         @if ($patientlist->lastPage() > 1)

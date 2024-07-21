@@ -5,49 +5,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/createpatientlist.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
-    <div class="header">
+<body class="min-h-screen bg-gray-200" style="margin: 0; padding: 0; font-family: Helvetica;">
+
+    <div style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold mb-5">
         <h4><i class="fa-solid fa-user-plus"></i> Add Patient</h4>
     </div>
-    @error('date')
-        <div style="color:red">{{ $message }}</div>
-    @enderror
-    <form method="post" action="{{ route('admin.patient.store') }}">
+
+    <form method="post" action="{{ route('admin.patient.store') }}" class="w-1/2 mx-auto bg-white rounded-lg shadow-md p-10">
         @csrf
-        <div class="form-group">
-            <label for="name" class="form-label">Patient Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+        <div class="mb-4">
+            <label for="name" class="font-semibold">Patient Name</label>
+            <input type="text" id="name" name="name" class="w-full rounded-lg focus:ring-2 shadow-sm" required>
         </div>
-        <div class="form-group form-inline">
-                <label for="gender" class="form-label">Gender</label>
-                <select class="form-control" id="gender" name="gender" style="width:30%;" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
+        <div class="mb-4">
+            <label for="gender" class="font-semibold">Gender</label>
+            <select id="gender" name="gender" class="rounded-lg focus:ring-2 shadow-sm" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
                 
-                <label for="age" class="form-label age">Age</label>
-                <input type="number" class="form-control" id="age" name="age" style="width:30%;" required>
+            <label for="age" class="ml-2 font-semibold">Age</label>
+            <input type="number" id="age" name="age" class="rounded-lg focus:ring-2 shadow-sm" required>
         </div>
-        <div class="form-group">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+        <div class="mb-4">
+            <label for="email" class="font-semibold">Email</label>
+            <input type="email" id="email" name="email" class="w-full rounded-lg focus:ring-2 shadow-sm" required>
         </div>
-        <div class="form-group">
-            <label for="phone" class="form-label">Phone No</label>
-            <input type="number" class="form-control" id="phone" name="phone" required>
+        <div class="mb-4">
+            <label for="phone" class="font-semibold">Phone No</label>
+            <input type="tel" id="phone" name="phone" class="w-full rounded-lg focus:ring-2 shadow-sm" required>
         </div>
-        <div class="form-group">
-            <label for="address" class="form-label">Address</label>
-            <input type="text" class="form-control" id="address" name="address" required>
+        <div class="mb-4">
+            <label for="address" class="font-semibold">Address</label>
+            <input type="text" id="address" name="address" class="w-full rounded-lg focus:ring-2 shadow-sm" required>
         </div>
+        
         @csrf
-        <div class="btn-container">
-            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Add</button>
-            <a href="{{ route('admin.patientlist') }}" class="btn btn-light"><i class="fa-regular fa-rectangle-xmark"></i> Cancel</a>
+
+        <div class="text-right">
+            <a type="submit" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white"><i class="fa-solid fa-user-plus"></i> Add</a>
+            <a href="{{ route('admin.patientlist') }}" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"><i class="fa-regular fa-rectangle-xmark"></i> Cancel</a>
         </div>
     </form>
 </body>
