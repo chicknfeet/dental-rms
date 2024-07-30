@@ -7,7 +7,6 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Patientlist;
 use App\Models\PaymentInfo;
-use App\Models\Record;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,23 +36,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Dentistry Student',
             'email' => 'dentistrystudent@example.com',
             'password' => Hash::make('password'),
-        ]);
-
-        Record::truncate();
-        Record::create([
-            'file' => 'Check up result'
-        ]);
-        Record::create([
-            'file' => 'Dental X-Ray resut'
-        ]);
-        Record::create([
-            'file' => 'Medical Prescription'
-        ]);
-        Record::create([
-            'file' => 'Checkup result 2'
-        ]);
-        Record::create([
-            'file' => 'Checkup result 3'
         ]);
         
         Patientlist::truncate();

@@ -32,7 +32,7 @@ class PatientMessagesController extends Controller
             'message' => $request->input('message'),
         ]);
 
-        return redirect()->route('admin.messages')
+        return redirect()->route('patient.messages')
             ->with('success', 'Message sent successfully!');
     }
     

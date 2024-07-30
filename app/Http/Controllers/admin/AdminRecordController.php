@@ -27,13 +27,14 @@ class AdminRecordController extends Controller
         return redirect()->route('admin.record.create')->with('success', 'Record added successfully!');
     }
 
-    public function showRecord($patientlistId, $recordId)
+    public function showRecord($patientlistId)
     {
         $patientlist = Patientlist::findOrFail($patientlistId);
-        $records = $patientlist->records;
-        $record = Record::findOrFail($recordId);
-    
-        return view('admin.patientlist.showRecord', compact('patientlist', 'records', 'record'));
+        
+        // Assuming records are associated with the patient list through a one-to-many relationship
+        $records = Record::where('file', $patientlistId)->get();
+
+        return view('admin.patientlist.showRecord', compact('patientlist', 'records'));
     }
 
     public function deleteRecord($patientlistId, $recordId)
