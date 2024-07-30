@@ -9,7 +9,7 @@ class WelcomeController extends Controller
 {
     public function index(){
         $communityforums = CommunityForum::all();
-        $communityforums = CommunityForum::paginate(2);
+        $communityforums = CommunityForum::paginate(4);
         return view('welcome', compact('communityforums'));
     }
 

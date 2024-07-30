@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="card">
-        <img class="card-img" src="{{ asset('images/background.png') }}" alt="Card image" style="max-width: 100%; max-height: 585px; width:auto; height: auto;">
+        <img class="card-img" src="{{ asset('images/background.png') }}" alt="Card image">
         <div class="card-img-overlay">
             <thead class="antialiased">
                 <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
@@ -52,9 +52,6 @@
                                 </div>
                                 <div class="tweet-content">
                                     <p>{{ $communityforum->topic }}</p>
-                                </div>
-                                <div class="tweet-actions">
-                                    <a href="{{ route('admin.showComment', $communityforum->id) }}" class="btn-action"><i class="fa-regular fa-message"></i> Comment</a>
                                 </div>
                             </div>
                         @endforeach
@@ -101,17 +98,6 @@
             </tbody>
         </div>
     </div>
-
-    <script>
-        // JavaScript for form submission animation
-        document.getElementById('postTopicForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
-            console.log('Posting topic...');
-            setTimeout(function() {
-                document.getElementById('postTopicForm').submit(); // Submit the form after animation or delay
-            }, 1000); // Adjust delay as needed
-        });
-    </script>
     
     
 </body>

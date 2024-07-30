@@ -9,8 +9,15 @@ class communityforum extends Model
 {
     protected $table = 'communityforums';
 
-    protected $fillable = [
-        'topic',
-    ];
+    protected $fillable = ['topic', 'user_id'];
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

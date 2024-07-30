@@ -10,13 +10,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div class="header">
+<div class="header">
         <h4><i class="fa-regular fa-comments"></i> Community Forum</h4>
     </div>
     <div class="container mt-4">
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
             </div>
         @endif
 
@@ -38,73 +43,125 @@
                 <div class="tweet-card">
                     <div class="tweet-header">
                         <div>
-                            <span class="username">{{ $communityforum->name }}</span>
+                            <span class="username">{{ $communityforum->user->name }}</span>
                             <span class="timestamp">{{ $communityforum->created_at->setTimezone('Asia/Manila')->format('F d, Y h:i A') }}</span>
                         </div>
                     </div>
                     <div class="tweet-content">
-                        <p>{{ $communityforum->topic }}</p>
+                        <div class="editing-content" id="edit-form-{{ $communityforum->id }}" style="display: none;">
+                            <form method="post" action="{{ route('dentistrystudent.updatedCommunityforum', $communityforum->id) }}">
+                                @csrf
+                                @method('PUT')
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" id="topic" name="topic" placeholder="What's on your mind?" value="{{ old('topic', $communityforum->topic) }}" required>
+                                </div>
+                                <div class="update-cancel-buttons">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button type="button" class="btn btn-info cancel-btn" onclick="cancelEdit({{ $communityforum->id }})">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="non-editing-content" id="non-edit-form-{{ $communityforum->id }}" style="display: block;">
+                            <p>{{ $communityforum->topic }}</p>
+                        </div>
+                    </div>
+                    <!-- Add Comment Form -->
+                    <div class="add-comment-form">
+                        <form action="{{ route('dentistrystudent.addComment', $communityforum->id) }}" method="POST">
+                            @csrf
+                            <div class="input-group mb-3">
+                                <textarea class="form-control" id="comment" name="comment" placeholder="Add a comment..." required></textarea>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Comment</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="tweet-actions">
-                        <a href="{{ route('dentistrystudent.showComment', $communityforum->id) }}" class="btn-action"><i class="fa-regular fa-message"></i> Comment</a>
-                        <a href="{{ route('dentistrystudent.updateCommunityforum', $communityforum->id) }}" class="btn-action"><i class="fa-solid fa-pen"></i> Edit</a>
-                        <form method="post" action="{{ route('dentistrystudent.deleteCommunityforum', $communityforum->id) }}" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-action" onclick="return confirm('Are you sure you want to delete this post?')"><i class="fa-regular fa-trash-can"></i> Delete</button>
-                        </form>
+                        <button class="btn-action" onclick="toggleComments({{ $communityforum->id }})"><i class="fa-regular fa-message"></i> Comments</button>
+                        @if(Auth::id() === $communityforum->user_id || Auth::user()->is_dentistrystudent)
+                            <button class="btn-action" onclick="editTopic({{ $communityforum->id }})"><i class="fa-solid fa-pen"></i> Edit</button>
+                            <form method="post" action="{{ route('dentistrystudent.deleteCommunityforum', $communityforum->id) }}" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-action" onclick="return confirm('Are you sure you want to delete this post?')"><i class="fa-regular fa-trash-can"></i> Delete</button>
+                            </form>
+                        @endif
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div id="comments-section-{{ $communityforum->id }}" class="comments-section d-none">
+                        @foreach ($communityforum->comments as $comment)
+                            <div class="comment-card">
+                                <div class="comment-header">
+                                    <div>
+                                        <span class="username">{{ $comment->user->name }}</span>
+                                        <span class="timestamp">{{ $comment->created_at->setTimezone('Asia/Manila')->format('F d, Y h:i A') }}</span>
+                                    </div>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="editing-content" id="edit-comment-form-{{ $comment->id }}" style="display: none;">
+                                        <form method="post" action="{{ route('dentistrystudent.updatedComment', $comment->id) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control" id="comment" name="comment" placeholder="Edit your comment" value="{{ old('comment', $comment->comment) }}" required>
+                                            </div>
+                                            <div class="update-cancel-buttons">
+                                                <button type="submit" class="btn btn-primary">Update</button>
+                                                <button type="button" class="btn btn-info cancel-btn" onclick="cancelEditComment({{ $comment->id }})">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="non-editing-content" id="non-edit-comment-form-{{ $comment->id }}" style="display: block;">
+                                        <p>{{ $comment->comment }}</p>
+                                    </div>
+                                </div>
+                                <div class="comment-actions">
+                                    @if(Auth::id() === $comment->user_id || Auth::user()->is_dentistrystudent)
+                                        <button class="btn-action" onclick="editComment({{ $comment->id }})"><i class="fa-solid fa-pen"></i> Edit</button>
+                                        <form method="post" action="{{ route('dentistrystudent.deleteComment', $comment->id) }}" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-action" onclick="return confirm('Are you sure you want to delete this comment?')"><i class="fa-regular fa-trash-can"></i> Delete</button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             @endforeach
+            {{ $communityforums->links() }}
         </div>
     </div>
-
     <script>
-        // JavaScript for form submission animation
-        document.getElementById('postTopicForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
-            console.log('Posting topic...');
-            setTimeout(function() {
-                document.getElementById('postTopicForm').submit(); // Submit the form after animation or delay
-            }, 1000); // Adjust delay as needed
-        });
+        function toggleComments(forumId) {
+            var commentsSection = document.getElementById('comments-section-' + forumId);
+            commentsSection.classList.toggle('d-none');
+        }
+
+        function editTopic(forumId) {
+            document.getElementById('edit-form-' + forumId).style.display = 'block';
+            document.getElementById('non-edit-form-' + forumId).style.display = 'none';
+        }
+
+        function cancelEdit(forumId) {
+            document.getElementById('edit-form-' + forumId).style.display = 'none';
+            document.getElementById('non-edit-form-' + forumId).style.display = 'block';
+        }
+
+        function editComment(commentId) {
+            document.getElementById('edit-comment-form-' + commentId).style.display = 'block';
+            document.getElementById('non-edit-comment-form-' + commentId).style.display = 'none';
+        }
+
+        function cancelEditComment(commentId) {
+            document.getElementById('edit-comment-form-' + commentId).style.display = 'none';
+            document.getElementById('non-edit-comment-form-' + commentId).style.display = 'block';
+        }
     </script>
     
-    <!-- pagination here -->
-    @if ($communityforums->lastPage() > 1)
-        <ul class="pagination">
-            <!-- Previous Page Link -->
-            @if ($communityforums->onFirstPage())
-                <li class="page-item disabled" aria-disabled="true">
-                    <span class="page-link" aria-hidden="true">&laquo;</span>
-                </li>
-            @else
-                <li class="page-item">
-                    <a class="page-link" href="{{ $communityforums->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&laquo;</a>
-                </li>
-            @endif
-
-            <!-- Pagination Elements -->
-            @for ($i = 1; $i <= $communityforums->lastPage(); $i++)
-                @if ($i == $communityforums->currentPage())
-                    <li class="page-item active" aria-current="page"><span class="page-link">{{ $i }}</span></li>
-                @else
-                    <li class="page-item"><a class="page-link" href="{{ $communityforums->url($i) }}">{{ $i }}</a></li>
-                @endif
-            @endfor
-
-            <!-- Next Page Link -->
-            @if ($communityforums->hasMorePages())
-                <li class="page-item">
-                    <a class="page-link" href="{{ $communityforums->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">&raquo;</a>
-                </li>
-            @else
-                <li class="page-item disabled" aria-disabled="true">
-                    <span class="page-link" aria-hidden="true">&raquo;</span>
-                </li>
-            @endif
-        </ul>
-    @endif
 </body>
 </html>
 

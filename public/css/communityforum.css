@@ -15,26 +15,16 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
-.forum-container {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #fff; /* White background */
+.forum-container, .form-container, .tweet-card, .comment-card {
+    background-color: #fff;
     border-radius: 8px;
+    padding: 20px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.form-container {
-    background-color: #fff; /* White background */
-    border: 1px solid #e1e8ed;
-    border-radius: 8px;
-    padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.form-container h3 {
-    margin-bottom: 10px;
-    color: #007bff; /* Blue title */
+.form-container h4, .tweet-header .username, .form-container h3 {
+    color: #007bff;
 }
 
 .tweet-card {
@@ -52,32 +42,31 @@ body {
     box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Enhance shadow on hover */
 }
 
-.tweet-header {
+.tweet-header, .comment-header {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Align items horizontally */
+    justify-content: space-between;
     margin-bottom: 10px;
 }
 
-.tweet-header .username {
+.tweet-header .username, .comment-header .username {
     font-weight: bold;
-    color: #007bff; /* Blue username */
 }
 
-.tweet-header .timestamp {
-    color: #657786; /* Dark grey timestamp */
+.tweet-header .timestamp, .comment-header .timestamp {
+    color: #657786;
 }
 
-.tweet-content {
+.tweet-content, .comment-content {
     margin-top: 10px;
     font-size: 0.9rem;
     line-height: 1.6;
 }
 
-.tweet-actions {
+.tweet-actions, .comment-actions {
     margin-top: 10px;
     display: flex;
-    justify-content: flex-end; /* Align buttons to the right */
+    justify-content: flex-end;
 }
 
 .btn-action {
@@ -103,23 +92,10 @@ body {
     margin-left: auto;
 }
 
-/* Styling for pagination */
-.pagination {
-    margin-top: 30px;
-    margin-bottom: 20px;
+.update-cancel-buttons {
     display: flex;
-    list-style: none;
-    padding: 0;
-    justify-content: center;
 }
 
-.pagination li {
-    margin: 0 5px;
-}
-
-.pagination li.active span {
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    padding: 5px 10px;
+.update-cancel-buttons .btn {
+    margin-left: 5px;
 }

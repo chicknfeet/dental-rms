@@ -52,15 +52,20 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin']], function () {
     Route::put('/admin/patientlist/updated/{id}', [AdminPatientListController::class, 'updatedPatient'])->name('admin.updatedPatient');
     Route::delete('/admin/patientlist/delete/{id}', [AdminPatientListController::class, 'deletePatient'])->name('admin.deletePatient');
     // record
-    Route::get('/admin/patientlist/{patientlistId}/record', [AdminPatientlistController::class, 'showRecord'])->name('admin.showRecord');
+    Route::get('/admin/patientlist/{patientlistId}/record', [AdminRecordController::class, 'showRecord'])->name('admin.showRecord');
     Route::get('/admin/record/add', [AdminRecordController::class, 'createRecord'])->name('admin.record.create');
     Route::post('/admin/records/store', [AdminRecordController::class, 'storeRecord'])->name('admin.record.store');
     Route::get('/admin/patientlist/{patient}/record/{record}/update', [AdminRecordController::class, 'updateRecord'])->name('admin.record.update');
     Route::get('/admin/patientlist/{patient}/record/{record}', [AdminRecordController::class, 'updatedRecord'])->name('admin.record.updated');
     Route::delete('/admin/patientlist/{patient}/record/{record}', [AdminRecordController::class, 'deleteRecord'])->name('admin.record.delete');
+    
+    Route::get('/admin/search', [AdminPatientlistController::class, 'search'])->name('admin.search');
+
     // messages
     Route::get('/admin/messages',[AdminMessagesController::class,'index'])->name('admin.messages');
     Route::post('/admin/messages', [AdminMessagesController::class, 'storeMessage'])->name('admin.messages.store');
+    Route::get('/admin/messages/search', [AdminMessagesController::class, 'search'])->name('admin.messages.search');
+    
     // payment info
     Route::get('/admin/paymentinfo',[AdminPaymentInfoController::class,'index'])->name('admin.paymentinfo');
     Route::get('/admin/payment/add', [AdminPaymentInfoController::class, 'createPayment'])->name('admin.payment.create');
@@ -69,6 +74,9 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin']], function () {
     Route::get('/admin/payment/update/{id}', [AdminPaymentInfoController::class, 'updatePayment'])->name('admin.updatePayment');
     Route::put('/admin/payment/updated/{id}', [AdminPaymentInfoController::class, 'updatedPayment'])->name('admin.updatedPayment');
     Route::delete('/admin/payment/delete/{id}', [AdminPaymentInfoController::class, 'deletePayment'])->name('admin.deletePayment');
+    
+    Route::get('/admin/payment/search', [AdminPaymentInfoController::class, 'search'])->name('admin.paymentinfo.search');
+
     // calendar
     Route::get('/admin/calendar',[AdminCalendarController::class,'index'])->name('admin.calendar');
     Route::get('/admin/calendar/appointment/update/{id}', [AdminCalendarController::class, 'updateCalendar'])->name('admin.updateCalendar');
@@ -77,18 +85,16 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin']], function () {
     // community forum
     Route::get('/admin/communityforum',[AdminCommunityForumController::class,'index'])->name('admin.communityforum');
     Route::get('/admin/communityforum/post', [AdminCommunityForumController::class, 'createCommunityforum'])->name('admin.communityforum.create');
-    Route::post('/admin/communityforum/store', [AdminCommunityForumController::class, 'storeCommunityforum'])->name('admin.communityforum.store');
-    Route::get('/admin/communityforum/update/{id}', [AdminCommunityForumController::class, 'updateCommunityforum'])->name('admin.updateCommunityforum');
-    Route::put('/admin/communityforum/updated/{id}', [AdminCommunityForumController::class, 'updatedCommunityforum'])->name('admin.updatedCommunityforum');
+    Route::post('/admin/communityforum/store', [AdminCommunityForumController::class, 'store'])->name('admin.communityforum.store');
+    Route::get('/admin/communityforum/edit/{id}', [AdminCommunityForumController::class, 'editCommunityforum'])->name('admin.editCommunityforum');
+    Route::put('/admin/communityforum/update/{id}', [AdminCommunityForumController::class, 'updateCommunityforum'])->name('admin.updatedCommunityforum');
     Route::delete('/admin/communityforum/delete/{id}', [AdminCommunityForumController::class, 'deleteCommunityforum'])->name('admin.deleteCommunityforum');
-
-
-    Route::get('/admin/communityforum/{communityforumsId}/comment', [AdminCommunityForumController::class, 'showComment'])->name('admin.showComment');
-    Route::get('/admin/comment/add', [AdminCommentController::class, 'createComment'])->name('admin.comment.create');
-    Route::post('/admin/comments/store', [AdminCommentController::class, 'storeComment'])->name('admin.comment.store');
-    Route::get('/admin/communityforums/{communityforum}/comment/{comment}/update', [AdminCommentController::class, 'updateComment'])->name('admin.comment.update');
-    Route::get('/admin/communityforums/{communityforum}/comment/{comment}', [AdminCommentController::class, 'updatedComment'])->name('admin.comment.updated');
-    Route::delete('/admin/communityforums/{communityforum}/comment/{comment}', [AdminCommentController::class, 'deleteComment'])->name('admin.comment.delete');
+    Route::get('/communityforum', [AdminCommunityForumController::class, 'comment'])->name('admin.communityforum');
+    
+    Route::post('/communityforum/{communityforum}/comment', [AdminCommentController::class, 'addComment'])->name('admin.addComment');
+    Route::put('/communityforum/comment/{comment}', [AdminCommentController::class, 'updateComment'])->name('admin.updatedComment');
+    Route::delete('/communityforum/comment/{comment}', [AdminCommentController::class, 'deleteComment'])->name('admin.deleteComment');
+    Route::get('/communityforum/comment/{comment}/edit', [AdminCommentController::class, 'editComment'])->name('admin.editComment');
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
@@ -121,38 +127,35 @@ Route::group(['middleware' => ['auth', 'checkUserType:patient']], function () {
     // community forum
     Route::get('/patient/communityforum',[PatientCommunityForumController::class,'index'])->name('patient.communityforum');
     Route::get('/patient/communityforum/post', [PatientCommunityForumController::class, 'createCommunityforum'])->name('patient.communityforum.create');
-    Route::post('/patient/communityforum/store', [PatientCommunityForumController::class, 'storeCommunityforum'])->name('patient.communityforum.store');
-    Route::get('/patient/communityforum/update/{id}', [PatientCommunityForumController::class, 'updateCommunityforum'])->name('patient.updateCommunityforum');
-    Route::put('/patient/communityforum/updated/{id}', [PatientCommunityForumController::class, 'updatedCommunityforum'])->name('patient.updatedCommunityforum');
+    Route::post('/patient/communityforum/store', [PatientCommunityForumController::class, 'store'])->name('patient.communityforum.store');
+    Route::get('/patient/communityforum/edit/{id}', [PatientCommunityForumController::class, 'editCommunityforum'])->name('patient.editCommunityforum');
+    Route::put('/patient/communityforum/update/{id}', [PatientCommunityForumController::class, 'updateCommunityforum'])->name('patient.updatedCommunityforum');
     Route::delete('/patient/communityforum/delete/{id}', [PatientCommunityForumController::class, 'deleteCommunityforum'])->name('patient.deleteCommunityforum');
-
-
-    Route::get('/patient/communityforum/{communityforumsId}/comment', [PatientCommunityForumController::class, 'showComment'])->name('patient.showComment');
-    Route::get('/patient/comment/add', [PatientCommentController::class, 'createComment'])->name('patient.comment.create');
-    Route::post('/patient/comments/store', [PatientCommentController::class, 'storeComment'])->name('patient.comment.store');
-    Route::get('/patient/communityforums/{communityforum}/comment/{comment}/update', [PatientCommentController::class, 'updateComment'])->name('patient.comment.update');
-    Route::get('/patient/communityforums/{communityforum}/comment/{comment}', [PatientCommentController::class, 'updatedComment'])->name('patient.comment.updated');
-    Route::delete('/patient/communityforums/{communityforum}/comment/{comment}', [PatientCommentController::class, 'deleteComment'])->name('patient.comment.delete');
+    Route::get('/communityforum', [PatientCommunityForumController::class, 'comment'])->name('patient.communityforum');
+    
+    Route::post('/patient/communityforum/{communityforum}/comment', [PatientCommentController::class, 'addComment'])->name('patient.addComment');
+    Route::put('/patient/communityforum/comment/{comment}', [PatientCommentController::class, 'updateComment'])->name('patient.updatedComment');
+    Route::delete('/patient/communityforum/comment/{comment}', [PatientCommentController::class, 'deleteComment'])->name('patient.deleteComment');
+    Route::get('/patient/communityforum/comment/{comment}/edit', [PatientCommentController::class, 'editComment'])->name('patient.editComment');
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
 Route::group(['middleware' => ['auth', 'checkUserType:dentistrystudent']], function () {
     // community forum
-    Route::get('/communityforum',[DentistryStudentCommunityForumController::class,'index'])->name('dentistrystudent.communityforum');
-    Route::get('/communityforum/post', [DentistryStudentCommunityForumController::class, 'createCommunityforum'])->name('dentistrystudent.communityforum.create');
-    Route::post('/communityforum/store', [DentistryStudentCommunityForumController::class, 'storeCommunityforum'])->name('dentistrystudent.communityforum.store');
-    Route::get('/communityforum/update/{id}', [DentistryStudentCommunityForumController::class, 'updateCommunityforum'])->name('dentistrystudent.updateCommunityforum');
-    Route::put('/communityforum/updated/{id}', [DentistryStudentCommunityForumController::class, 'updatedCommunityforum'])->name('dentistrystudent.updatedCommunityforum');
-    Route::delete('/communityforum/delete/{id}', [DentistryStudentCommunityForumController::class, 'deleteCommunityforum'])->name('dentistrystudent.deleteCommunityforum');
+    Route::get('/dentistrystudent/communityforum',[DentistryStudentCommunityForumController::class,'index'])->name('dentistrystudent.communityforum');
+    Route::get('/dentistrystudent/communityforum/post', [DentistryStudentCommunityForumController::class, 'createCommunityforum'])->name('dentistrystudent.communityforum.create');
+    Route::post('/dentistrystudent/communityforum/store', [DentistryStudentCommunityForumController::class, 'store'])->name('dentistrystudent.communityforum.store');
+    Route::get('/dentistrystudent/communityforum/edit/{id}', [DentistryStudentCommunityForumController::class, 'editCommunityforum'])->name('dentistrystudent.editCommunityforum');
+    Route::put('/dentistrystudent/communityforum/update/{id}', [DentistryStudentCommunityForumController::class, 'updateCommunityforum'])->name('dentistrystudent.updatedCommunityforum');
+    Route::delete('/dentistrystudent/communityforum/delete/{id}', [DentistryStudentCommunityForumController::class, 'deleteCommunityforum'])->name('dentistrystudent.deleteCommunityforum');
+    Route::get('/communityforum', [DentistryStudentCommunityForumController::class, 'comment'])->name('dentistrystudent.communityforum');
+    
+    Route::post('/dentistrystudent/communityforum/{communityforum}/comment', [DentistryStudentCommentController::class, 'addComment'])->name('dentistrystudent.addComment');
+    Route::put('/dentistrystudent/communityforum/comment/{comment}', [DentistryStudentCommentController::class, 'updateComment'])->name('dentistrystudent.updatedComment');
+    Route::delete('/dentistrystudent/communityforum/comment/{comment}', [DentistryStudentCommentController::class, 'deleteComment'])->name('dentistrystudent.deleteComment');
+    Route::get('/dentistrystudent/communityforum/comment/{comment}/edit', [DentistryStudentCommentController::class, 'editComment'])->name('dentistrystudent.editComment');
 
-
-    Route::get('/communityforum/{communityforumsId}/comment', [DentistryStudentCommunityForumController::class, 'showComment'])->name('dentistrystudent.showComment');
-    Route::get('/comment/add', [DentistryStudentCommentController::class, 'createComment'])->name('dentistrystudent.comment.create');
-    Route::post('/comments/store', [DentistryStudentCommentController::class, 'storeComment'])->name('dentistrystudent.comment.store');
-    Route::get('/communityforums/{communityforum}/comment/{comment}/update', [DentistryStudentCommentController::class, 'updateComment'])->name('dentistrystudent.comment.update');
-    Route::get('/communityforums/{communityforum}/comment/{comment}', [DentistryStudentCommentController::class, 'updatedComment'])->name('dentistrystudent.comment.updated');
-    Route::delete('/communityforums/{communityforum}/comment/{comment}', [DentistryStudentCommentController::class, 'deleteComment'])->name('dentistrystudent.comment.delete');
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
