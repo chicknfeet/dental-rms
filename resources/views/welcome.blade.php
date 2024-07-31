@@ -46,7 +46,7 @@
                             <div class="tweet-card">
                                 <div class="tweet-header">
                                     <div>
-                                        <span class="username">{{ $communityforum->name }}</span>
+                                        <span class="username">{{ $communityforum->user->name }}</span>
                                         <span class="timestamp">{{ $communityforum->created_at->setTimezone('Asia/Manila')->format('F d, Y h:i A') }}</span>
                                     </div>
                                 </div>

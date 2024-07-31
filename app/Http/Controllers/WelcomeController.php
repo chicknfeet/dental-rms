@@ -9,28 +9,7 @@ class WelcomeController extends Controller
 {
     public function index(){
         $communityforums = CommunityForum::all();
-        $communityforums = CommunityForum::paginate(4);
+        $communityforums = CommunityForum::paginate(3);
         return view('welcome', compact('communityforums'));
-    }
-
-    public function storeCommunityforum(Request $request){
-        $request->validate([
-            'topic' => 'required|string',
-        ]);
-
-        $communityforum = CommunityForum::create([
-            'topic' => $request->input('topic'),
-        ]);
-
-        return redirect()->route('admin.communityforum')
-            ->with('success', 'Topic added successfully!');
-    }
-
-    public function showComment($communityforumId)
-    {
-        $communityforums = CommunityForum::findOrFail($communityforumId);
-        $comments = $communityforums->comments;
-
-        return view('admin.communityforum.showComment', compact('communityforums', 'comments'));
     }
 }
