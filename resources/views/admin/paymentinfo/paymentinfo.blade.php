@@ -5,18 +5,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 </head>
-<body  class="min-h-screen bg-gray-200" style="margin: 0; padding: 0; font-family: Helvetica;">
+<body class="min-h-screen bg-gray-200" style="margin: 0; padding: 0;">
 
-    <div  style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
+    <div style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
         <h4><i class="fa-solid fa-money-bills"></i> Payment Info</h4>
     </div>
     <div class="actions px-6 py-4 flex justify-between items-center">
         <a href="{{ route('admin.payment.create') }}"  class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white"><i class="fa-solid fa-cash-register"></i> New</a>
         
         <form action="{{ route('admin.paymentinfo.search') }}" method="GET">
-            <input type="text" name="query" placeholder="Search" class="w-full h-10 px-3 rounded-full focus:ring-2 border border-gray-300 focus:outline-none focus:border-blue-500">
+            <div class="relative w-full">
+                <input type="text" name="query" placeholder="Search" class="w-full h-10 px-3 rounded-full focus:ring-2 border border-gray-300 focus:outline-none focus:border-blue-500">
+                <button type="submit" class="absolute top-0 end-0 p-2.5 pr-3 text-sm font-medium h-full text-white bg-blue-700 rounded-e-full border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span class="sr-only">Search</span>
+                </button>
+            </div>
         </form>
     </div>
 
@@ -26,28 +32,27 @@
         </div>
     @endif
 
-    <div class="overflow-x-auto">
-        
-        <table class="min-w-full bg-white">
-            <thead>
+    <div class="relative overflow-x-auto sm:rounded-lg">
+        <table class="min-w-full bg-white text-left rtl:text-right">
+            <thead class="text-gray-800 uppercase dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th class="px-6 py-3 text-left text-lg font-semibold">Patient</th>
-                    <th class="px-6 py-3 text-left text-lg font-semibold">Description</th>
-                    <th class="px-6 py-3 text-left text-lg font-semibold">Amount</th>
-                    <th class="px-6 py-3 text-left text-lg font-semibold">Balance</th>
-                    <th class="px-6 py-3 text-left text-lg font-semibold">Date</th>
+                    <th scope="col" class="px-6 py-3">Patient</th>
+                    <th scope="col" class="px-6 py-3">Description</th>
+                    <th scope="col" class="px-6 py-3">Amount</th>
+                    <th scope="col" class="px-6 py-3">Balance</th>
+                    <th scope="col" class="px-6 py-3">Date</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($paymentinfo as $payment)
-                    <tr style="border-top: 7px solid #f1eaead3;">
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $payment->patient }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $payment->description }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap"><i class="fa-solid fa-peso-sign"></i>{{ $payment->amount }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap"><i class="fa-solid fa-peso-sign"></i>{{ $payment->balance }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $payment->date }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{{ route('admin.updatePayment', $payment->id) }}" class="px-4 py-2 rounded hover:bg-gray-200 transition duration-300 text-base"><i class="fa-solid fa-pen update"></i> Edit</a>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4">{{ $payment->patient }}</td>
+                        <td class="px-6 py-4">{{ $payment->description }}</td>
+                        <td class="px-6 py-4"><i class="fa-solid fa-peso-sign"></i>{{ $payment->amount }}</td>
+                        <td class="px-6 py-4"><i class="fa-solid fa-peso-sign"></i>{{ $payment->balance }}</td>
+                        <td class="px-6 py-4">{{ $payment->date }}</td>
+                        <td class="px-6 py-4">
+                            <a href="{{ route('admin.updatePayment', $payment->id) }}" class="px-4 py-2 rounded text-blue-800 hover:bg-blue-200 transition duration-300 text-base"><i class="fa-solid fa-pen update"></i> Edit</a>
                             
                             <a href="{{ route('admin.deletePayment', $payment->id) }}" class="px-4 py-2 rounded text-red-800 hover:bg-red-200 transition duration-300 text-base" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this payment?')) { document.getElementById('delete-payment-form').submit(); }"><i class="fa-regular fa-trash-can"></i> Delete</a>
                             <!-- hidden form for csrf -->

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/messages.css') }}">
-    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.5.2-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 </head>
 <body>
     <div class="chat-container">
@@ -13,11 +13,15 @@
             <div>
                 <h1><i class="fa-regular fa-comment-dots"></i> Messages</h1>
             </div>
-            <div class="actions">
-                <form action="{{ route('admin.messages.search') }}" method="GET">
-                    <input class="form-control" type="text" name="query" placeholder="Search">
-                </form>
-            </div>
+            <form action="{{ route('admin.messages.search') }}" method="GET">
+                <div class="relative w-full">
+                    <input type="text" name="query" placeholder="Search" class="w-full h-10 px-3 rounded-full focus:ring-2 border border-gray-300 focus:outline-none focus:border-blue-500">
+                    <button type="submit" class="absolute top-0 end-0 p-2.5 pr-3 text-sm font-medium h-full text-white bg-blue-700 rounded-e-full border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span class="sr-only">Search</span>
+                    </button>
+                </div>
+            </form>
             <br>
             @foreach ($users as $user)
                 <div class="user-item" data-username="{{ $user->name }}" data-userid="{{ $user->id }}">
