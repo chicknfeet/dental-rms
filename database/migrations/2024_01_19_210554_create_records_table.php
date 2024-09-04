@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('patientlist_id');
+            $table->foreign('patientlist_id')->references('id')->on('patientlists');
             $table->string('file');
             $table->timestamps();
+        
         });
     }
 

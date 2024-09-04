@@ -53,12 +53,14 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin']], function () {
     Route::delete('/admin/patientlist/delete/{id}', [AdminPatientListController::class, 'deletePatient'])->name('admin.deletePatient');
     // record
     Route::get('/admin/patientlist/{patientlistId}/record', [AdminRecordController::class, 'showRecord'])->name('admin.showRecord');
-    Route::get('/admin/record/add', [AdminRecordController::class, 'createRecord'])->name('admin.record.create');
+    Route::get('/admin/record/add/{patientlistId}', [AdminRecordController::class, 'createRecord'])->name('admin.record.create');
     Route::post('/admin/records/store', [AdminRecordController::class, 'storeRecord'])->name('admin.record.store');
-    Route::get('/admin/patientlist/{patient}/record/{record}/update', [AdminRecordController::class, 'updateRecord'])->name('admin.record.update');
-    Route::get('/admin/patientlist/{patient}/record/{record}', [AdminRecordController::class, 'updatedRecord'])->name('admin.record.updated');
-    Route::delete('/admin/patientlist/{patient}/record/{record}', [AdminRecordController::class, 'deleteRecord'])->name('admin.record.delete');
-    
+    Route::get('/records/{patientlistId}/{recordId}/edit', [AdminRecordController::class, 'updateRecord'])->name('updateRecord');
+    Route::put('/admin/record/update/{patientlistId}/{recordId}', [AdminRecordController::class, 'updatedRecord'])->name('admin.record.update');
+    Route::delete('/records/{patientlist}/{record}', [AdminRecordController::class, 'deleteRecord'])->name('deleteRecord');
+    Route::get('/records/download/{record}', [AdminRecordController::class, 'downloadRecord'])->name('downloadRecord');
+
+
     Route::get('/admin/search', [AdminPatientlistController::class, 'search'])->name('admin.search');
 
     // messages

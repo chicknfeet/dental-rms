@@ -9,14 +9,19 @@
             </div>
         @endif
         
-        <form method="post" action="{{ route('admin.record.store') }}">
-            @csrf
-            <div class="mb-3">
-                <label for="file" class="form-label">File</label>
-                <input type="file" class="form-control" id="file" name="file" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Upload File</button>
-        </form>
+        <form method="POST" action="{{ route('admin.record.store') }}" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" name="patientlist_id" value="{{ $patientlist->id }}">
+
+    
+    <div class="mb-3">
+        <label for="file" class="form-label">File</label>
+        <input type="file" class="form-control" id="file" name="file" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upload File</button>
+</form>
+
     </div>
 
 @section('title')
