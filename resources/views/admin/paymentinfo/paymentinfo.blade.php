@@ -34,13 +34,13 @@
 
     <div class="relative overflow-x-auto sm:rounded-lg">
         <table class="min-w-full bg-white text-left rtl:text-right">
-            <thead class="text-gray-800 uppercase dark:bg-gray-700 dark:text-gray-400">
+            <thead class="text-gray-800 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">Patient</th>
-                    <th scope="col" class="px-6 py-3">Description</th>
-                    <th scope="col" class="px-6 py-3">Amount</th>
-                    <th scope="col" class="px-6 py-3">Balance</th>
-                    <th scope="col" class="px-6 py-3">Date</th>
+                    <th scope="col" class="px-6 py-4">Patient</th>
+                    <th scope="col" class="px-6 py-4">Description</th>
+                    <th scope="col" class="px-6 py-4">Amount</th>
+                    <th scope="col" class="px-6 py-4">Balance</th>
+                    <th scope="col" class="px-6 py-4">Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +52,7 @@
                         <td class="px-6 py-4"><i class="fa-solid fa-peso-sign"></i>{{ $payment->balance }}</td>
                         <td class="px-6 py-4">{{ $payment->date }}</td>
                         <td class="px-6 py-4">
-                            <a href="{{ route('admin.updatePayment', $payment->id) }}" class="px-4 py-2 rounded text-blue-800 hover:bg-blue-200 transition duration-300 text-base"><i class="fa-solid fa-pen update"></i> Edit</a>
+                            <a href="{{ route('admin.updatePayment', $payment->id) }}" class="px-4 py-2 rounded text-gray-800 hover:bg-gray-200 transition duration-300 text-base"><i class="fa-solid fa-pen update"></i> Edit</a>
                             
                             <a href="{{ route('admin.deletePayment', $payment->id) }}" class="px-4 py-2 rounded text-red-800 hover:bg-red-200 transition duration-300 text-base" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this payment?')) { document.getElementById('delete-payment-form').submit(); }"><i class="fa-regular fa-trash-can"></i> Delete</a>
                             <!-- hidden form for csrf -->
