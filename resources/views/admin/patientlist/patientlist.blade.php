@@ -34,15 +34,15 @@
         </div>
     @endif
         
-    <div class="relative overflow-x-auto sm:rounded-lg">
+    <div class="relative overflow-x-auto">
         <table class="min-w-full bg-white text-left rtl:text-right">
-            <thead class="text-gray-800 uppercase dark:bg-gray-700 dark:text-gray-400">
+            <thead class="text-gray-800 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">Name</th>
-                    <th scope="col" class="px-6 py-3">Gender</th>
-                    <th scope="col" class="px-6 py-3">Age</th>
-                    <th scope="col" class="px-6 py-3">Phone No.</th>
-                    <th scope="col" class="px-6 py-3">Address</th>
+                    <th scope="col" class="px-6 py-4">Name</th>
+                    <th scope="col" class="px-6 py-4">Gender</th>
+                    <th scope="col" class="px-6 py-4">Age</th>
+                    <th scope="col" class="px-6 py-4">Phone No.</th>
+                    <th scope="col" class="px-6 py-4">Address</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,10 +54,10 @@
                         <td class="px-6 py-4">{{ $patient->phone}}</td>
                         <td class="px-6 py-4">{{ $patient->address}}</td>
                         <td class="px-6 py-4">
-                            <a href="{{ route('admin.showRecord', $patient->id) }}" class="px-4 py-2 rounded hover:bg-gray-200 transition duration-300 text-base"><i class="fa-regular fa-file-lines"></i> Records</a>
-                            <a href="{{ route('admin.updatePatient', $patient->id) }}" class="px-4 py-2 rounded text-blue-800 hover:bg-blue-200 transition duration-300 text-base"><i class="fa-solid fa-pen"></i> Edit</a>
+                            <a href="{{ route('admin.showRecord', $patient->id) }}" class="px-4 py-2 rounded text-blue-800 hover:bg-blue-200 transition duration-300"><i class="fa-regular fa-file-lines"></i> Records</a>
+                            <a href="{{ route('admin.updatePatient', $patient->id) }}" class="px-4 py-2 rounded text-gray-800 hover:bg-gray-200 transition duration-300"><i class="fa-solid fa-pen"></i> Edit</a>
                             
-                            <a href="{{ route('admin.deletePatient', $patient->id) }}" class="px-4 py-2 rounded text-red-800 hover:bg-red-200 transition duration-300 text-base" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this patient?')) { document.getElementById('delete-patient-form').submit(); }"><i class="fa-regular fa-trash-can"></i> Delete</a>
+                            <a href="{{ route('admin.deletePatient', $patient->id) }}" class="px-4 py-2 rounded text-red-800 hover:bg-red-200 transition duration-300" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this patient?')) { document.getElementById('delete-patient-form').submit(); }"><i class="fa-regular fa-trash-can"></i> Delete</a>
                             <!-- hidden form for csrf -->
                             <form id="delete-patient-form" method="post" action="{{ route('admin.deletePatient', $patient->id) }}" style="display: none;">
                                 @csrf
