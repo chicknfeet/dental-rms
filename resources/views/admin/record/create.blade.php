@@ -27,13 +27,11 @@
         </div>
         <div class="text-right">
             <button type="submit" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white">Upload File</button>
+            <a href="{{ route('admin.showRecord', $patientlist->id) }}" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">Back to View Record</a>
         </div>
     </form>
 </body>
 </html>
-
-
-    
 
 @section('title')
     Add Record

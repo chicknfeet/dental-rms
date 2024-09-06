@@ -31,7 +31,8 @@ class AdminRecordController extends Controller
             $originalFileName = $file->getClientOriginalName();
             
             // Generate a unique file name to avoid conflicts
-            $uniqueFileName = time() . '_' . $originalFileName;
+            // $uniqueFileName = time() . '_' . $originalFileName;
+            $uniqueFileName = $originalFileName;
             
             // Store the file with the unique file name
             $filePath = $file->storeAs($uniqueFileName);
