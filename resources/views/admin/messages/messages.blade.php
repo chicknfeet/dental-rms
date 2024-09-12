@@ -24,32 +24,36 @@
             </form>
             <br>
             @foreach ($users as $user)
-                <div class="user-item" data-username="{{ $user->name }}" data-userid="{{ $user->id }}">
-                    <div>
-                        {{ $user->name }}
-                        <div class="recent-message" id="recent-{{ $user->name }}"></div>
+                @if ($user->usertype !== 'dentistrystudent')
+                    <div class="user-item" data-username="{{ $user->name }}" data-userid="{{ $user->id }}">
+                        <div>
+                            {{ $user->name }}
+                            <div class="recent-message" id="recent-{{ $user->name }}"></div>
+                        </div>
                     </div>
-                </div>
+                @endif
             @endforeach
         </div>
         <div class="chat-box" id="chat-box">
             @foreach ($users as $user)
-                <div id="chat-panel-{{ $user->name }}" class="chat-messages">
-                    <!-- Chat messages for {{ $user->name }} -->
-                    @foreach ($messages as $message)
-                        @if ($message->sender_id == auth()->id() && $message->recipient_id == $user->id)
-                            <div class="admin">
-                                <p>You</p>
-                                <p>{{ $message->message }}</p>
+                @if ($user->usertype !== 'dentistrystudent')
+                    <div id="chat-panel-{{ $user->name }}" class="chat-messages">
+                        <!-- Chat messages for {{ $user->name }} -->
+                        @foreach ($messages as $message)
+                            @if ($message->sender_id == auth()->id() && $message->recipient_id == $user->id)
+                                <div class="admin">
+                                    <p>You</p>
+                                    <p>{{ $message->message }}</p>
+                                    </div>
+                            @elseif ($message->sender_id == $user->id && $message->recipient_id == auth()->id())
+                                <div class="others">
+                                    <p>{{ $user->name }}</p>
+                                    <p>{{ $message->message }}</p>
                                 </div>
-                        @elseif ($message->sender_id == $user->id && $message->recipient_id == auth()->id())
-                            <div class="others">
-                                <p>{{ $user->name }}</p>
-                                <p>{{ $message->message }}</p>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                @endif
             @endforeach
 
             <form method="post" action="{{ route('admin.messages.store') }}" class="chat-input">
