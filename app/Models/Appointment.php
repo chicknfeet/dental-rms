@@ -9,7 +9,21 @@ class Appointment extends Model
     protected $table = 'appointments';
 
     protected $fillable = [
-        'name', 'description', 'date', 'time',
+        'appointmentdate',
+        'appointmenttime',
+        'firstname',
+        'lastname',
+        'dateofbirth',
+        'gender',
+        'address',
+        'phone',
+        'email',
+        'medicalhistory',
+        'emergencycontactname',
+        'emergencycontactrelation',
+        'emergencycontactphone',
+        'name',
+        'relation',
     ];
 
 }

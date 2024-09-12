@@ -32,12 +32,13 @@
         </div>
         <div class="mb-4">
             <label for="gender" class="font-semibold">Gender</label>
-            <select  class="w-full rounded-lg focus:ring-2 shadow-sm" style="width:30%;" id="gender" name="gender" value="{{ old('gender', $patient->gender) }}" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+            <select class="w-full rounded-lg focus:ring-2 shadow-sm" style="width:30%;" id="gender" name="gender" required>
+                <option value="" disabled>Select your Gender</option>
+                <option value="Male" {{ old('gender', $patient->gender) == 'Male' ? 'selected' : '' }}>Male</option>
+                <option value="Female" {{ old('gender', $patient->gender) == 'Female' ? 'selected' : '' }}>Female</option>
             </select>
                 
-            <label for="age" class="font-semibold age">Age</label>
+            <label for="age" class="font-semibold">Age</label>
             <input type="number" class="w-full rounded-lg focus:ring-2 shadow-sm" style="width:30%;" id="age" name="age" value="{{ old('age', $patient->age) }}" required>
         </div>
         <div class="mb-4">

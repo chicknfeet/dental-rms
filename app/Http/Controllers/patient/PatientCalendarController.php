@@ -18,17 +18,39 @@ class PatientCalendarController extends Controller
     public function storeCalendar(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'appointmentdate' => 'required|date',
+            'appointmenttime' => 'required|date_format:H:i',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'dateofbirth' => 'required|date',
+            'gender' => 'required|string',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|regex:/^0[0-9]{10}$/',
+            'email' => 'required|string|lowercase|max:255',
+            'medicalhistory' => 'nullable|string',
+            'emergencycontactname' => 'required|string|max:255',
+            'emergencycontactrelation' => 'required|string',
+            'emergencycontactphone' => 'required|string|regex:/^0[0-9]{10}$/',
+            'name' => 'nullable|string|max:255',
+            'relation' => 'nullable|string',
         ]);
 
-        $calendar = Calendar::create([
+        Calendar::create([
+            'appointmentdate' => $request->input('appointmentdate'),
+            'appointmenttime' => $request->input('appointmenttime'),
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'dateofbirth' => $request->input('dateofbirth'),
+            'gender' => $request->input('gender'),
+            'address' => $request->input('address'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'medicalhistory' => $request->input('medicalhistory'),
+            'emergencycontactname' => $request->input('emergencycontactname'),
+            'emergencycontactrelation' => $request->input('emergencycontactrelation'),
+            'emergencycontactphone' => $request->input('emergencycontactphone'),
             'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'date' => $request->input('date'),
-            'time' => $request->input('time'),
+            'relation' => $request->input('relation'),
         ]);
 
         return redirect()->route('patient.appointment')->with('success', 'Appointment added successfully!');
@@ -51,17 +73,39 @@ class PatientCalendarController extends Controller
         $calendar = Calendar::findOrFail($id);
         
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'appointmentdate' => 'required|date',
+            'appointmenttime' => 'required|date_format:H:i',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'dateofbirth' => 'required|date',
+            'gender' => 'required|string',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|regex:/^0[0-9]{10}$/',
+            'email' => 'required|string|lowercase|max:255',
+            'medicalhistory' => 'nullable|string',
+            'emergencycontactname' => 'required|string|max:255',
+            'emergencycontactrelation' => 'required|string',
+            'emergencycontactphone' => 'required|string|regex:/^0[0-9]{10}$/',
+            'name' => 'nullable|string|max:255',
+            'relation' => 'nullable|string',
         ]);
 
         $calendar->update([
+            'appointmentdate' => $request->input('appointmentdate'),
+            'appointmenttime' => $request->input('appointmenttime'),
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'dateofbirth' => $request->input('dateofbirth'),
+            'gender' => $request->input('gender'),
+            'address' => $request->input('address'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'medicalhistory' => $request->input('medicalhistory'),
+            'emergencycontactname' => $request->input('emergencycontactname'),
+            'emergencycontactrelation' => $request->input('emergencycontactrelation'),
+            'emergencycontactphone' => $request->input('emergencycontactphone'),
             'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'date' => $request->input('date'),
-            'time' => $request->input('time'),
+            'relation' => $request->input('relation'),
         ]);
 
         return redirect()->route('patient.calendar')

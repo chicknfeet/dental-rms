@@ -13,10 +13,21 @@ return new class extends Migration
     {
         Schema::create('calendars', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->date('date');
-            $table->time('time');
+            $table->date('appointmentdate');
+            $table->time('appointmenttime');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->date('dateofbirth');
+            $table->string('gender');
+            $table->string('address');
+            $table->string('phone');
+            $table->string('email');
+            $table->string('medicalhistory')->nullable();
+            $table->string('emergencycontactname');
+            $table->string('emergencycontactrelation');
+            $table->string('emergencycontactphone');
+            $table->string('name')->nullable();
+            $table->string('relation')->nullable();
             $table->timestamps();
         });
     }

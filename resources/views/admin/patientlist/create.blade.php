@@ -22,6 +22,7 @@
         <div class="mb-4">
             <label for="gender" class="font-semibold">Gender</label>
             <select id="gender" name="gender" class="rounded-lg focus:ring-2 shadow-sm" required>
+                <option value="" disabled selected>Select your Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
             </select>

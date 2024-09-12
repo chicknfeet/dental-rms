@@ -23,7 +23,7 @@ h1 {
 
 .chat-container {
     display: flex;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 70px); /*eto nabago yung 70px dati 60px*/
     margin-top: 3px;
 }
 

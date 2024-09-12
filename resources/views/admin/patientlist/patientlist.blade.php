@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 </head>
-<body class="min-h-screen bg-gray-200" style="margin: 0; padding: 0;">
+<body>
 
     <div style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
         <h4><i class="fa-solid fa-users"></i> Patient List</h4>
@@ -15,9 +15,9 @@
     
     <div class="actions px-6 py-4 flex justify-between items-center">
         <a href="{{ route('admin.patient.create') }}" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white"><i class="fa-solid fa-user-plus"></i> New</a>
-        
+
         <form action="{{ route('admin.search') }}" method="GET">
-            
+
             <div class="relative w-full">
                 <input type="text" name="query" placeholder="Search" class="w-full h-10 px-3 rounded-full focus:ring-2 border border-gray-300 focus:outline-none focus:border-blue-500">
                 <button type="submit" class="absolute top-0 end-0 p-2.5 pr-3 text-sm font-medium h-full text-white bg-blue-700 rounded-e-full border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -33,11 +33,11 @@
             {{ session('success') }}
         </div>
     @endif
-        
+            
     <div class="relative overflow-x-auto">
         <table class="min-w-full bg-white text-left rtl:text-right">
             <thead class="text-gray-800">
-                <tr>
+                <tr class="border-b-2">
                     <th scope="col" class="px-6 py-4">Name</th>
                     <th scope="col" class="px-6 py-4">Gender</th>
                     <th scope="col" class="px-6 py-4">Age</th>
@@ -68,7 +68,7 @@
                 @endforeach
             </tbody>
         </table>
-        
+            
         <!-- pagination here -->
         @if ($patientlist->lastPage() > 1)
             <ul class="pagination mt-8 mb-8 flex items-center justify-center">
@@ -104,8 +104,8 @@
                 @endif
             </ul>
         @endif
-
     </div>
+
 </body>
 </html>
 
