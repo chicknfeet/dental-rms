@@ -152,7 +152,11 @@
                 </div>
             </div>
 
-            <h1 class="text-xl font-bold">Files</h1>
+            <div class="flex justify-between">
+                <h1 class="text-xl font-bold">Files</h1>
+                <h1>Total Files: {{ $count }}</h1>
+            </div>
+            
             <div class="max-h-96 overflow-y-auto overflow-x-auto border-t-2 border-b">
                 
                 <table class="min-w-full bg-white text-left rtl:text-right">

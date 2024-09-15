@@ -68,7 +68,8 @@ class AdminRecordController extends Controller
         // Assuming records are associated with the patient list through a one-to-many relationship
         $records = Record::where('patientlist_id', $patientlistId)->get();
         $notes = Note::where('patientlist_id', $patientlistId)->get();
-        return view('admin.patientlist.showRecord', compact('patientlist', 'records', 'notes'));
+        $count = Record::count();
+        return view('admin.patientlist.showRecord', compact('patientlist', 'records', 'notes') , ['count' => $count]);
     }
 
     public function updateRecord($patientlistId, $recordId)
@@ -117,6 +118,12 @@ class AdminRecordController extends Controller
     {
         $record = Record::findOrFail($recordId);
         return response()->download(storage_path('app/' . $record->file));
+    }
+
+    public function countRecords()
+    {
+        $count = Record::count();
+        return view('admin.patientlist.showRecord', ['count' => $count]);
     }
 
 
