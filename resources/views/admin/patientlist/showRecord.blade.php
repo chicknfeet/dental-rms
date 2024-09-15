@@ -9,11 +9,11 @@
 </head>
 <body>
 
-    <div style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold" style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
+    <div class="bg-[#4b9cd3;] shadow-[0_2px_4px_rgba(0,0,0,0.4)] py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
         <h4><i class="fa-solid fa-users"></i> Patient List / {{ $patientlist->firstname }} {{ $patientlist->lastname }}</h4>
     </div>
 
-    <div class="grid grid-flow-col grid-cols-3 grid-rows-2 gap-4 p-5 max-h-screen">
+    <div class="grid grid-cols-3 grid-rows-2 gap-4 p-5 max-h-screen">
         
         <!-- Patient details -->
         <div class="col-start-1 bg-white shadow-md p-5 rounded-xl h-[250px]">
@@ -53,31 +53,105 @@
                 </table>
             </div>
         </div>
-        
-        <!-- Patient records -->
-        <div class="col-start-3 row-span-2 bg-white shadow-md p-5 rounded-xl">
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <p style="color: red">{{ $error }}</p>
-                @endforeach
-            @endif
 
+        <!-- Patient notes -->
+        <div class="col-start-2 bg-white shadow-md p-5 rounded-xl h-[250px]">
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
 
-            <div class="flex justify-between mb-4">
-                <h1 class="text-2xl font-bold"><i class="fa-regular fa-folder-open"></i> List of Records</h1>
-                <a href="{{ route('admin.record.create', $patientlist->id) }}" class="px-4 py-1 rounded bg-blue-500 hover:bg-blue-700 text-white"><i class="fa-solid fa-file-circle-plus"></i></a>
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <p style="color: red">{{ $error }}</p>
+                @endforeach
+            @endif
+
+            <div class="flex justify-between">
+                <h1 class="text-xl font-bold">Notes</h1>
+                <!-- Button to open modal -->
+                <button id="openModalBtn" class="px-4 py-1 bg-blue-500 text-white rounded">Add Notes</button>
             </div>
 
-            <!-- <thead class="text-gray-800 border-b">
-                <tr>
-                    <th scope="col">File</th>
-                </tr>
-            </thead> -->
+            <!-- Display Notes -->
+            <div class="max-h-50 overflow-y-auto overflow-x-auto">
+                <table class="min-w-full">
+                    <tbody class="flex items-center justify-center text-justify m-5">
+                        @foreach ($notes as $note)
+                            <tr>
+                                <td class="overflow-hidden">{{ $note->note }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="notesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+                <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+                    <div class="bg-[#4b9cd3;] rounded-lg py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold mb-10">
+                        <h4>Add Note</h4>
+                    </div>
+                    <form method="post" action="{{ route('admin.note.store') }}">
+                        @csrf
+
+                        <input type="hidden" name="patientlist_id" value="{{ $patientlist->id }}">
+                        
+                        <div class="mb-4">
+                            <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
+                            <textarea id="note" name="note" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter note" required></textarea>
+                        </div>
+                        <div class="flex justify-end space-x-2">
+                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Save Notes</button>
+                            <button type="submit" id="closeModalBtn" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Patient records -->
+        <div class="col-start-3 row-span-2 bg-white shadow-md p-5 rounded-xl">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <p style="color: red">{{ $error }}</p>
+                @endforeach
+            @endif
+
+            <div class="flex justify-between mb-4">
+                <h1 class="text-2xl font-bold"><i class="fa-regular fa-folder-open"></i> List of Records</h1>
+                <button id="openModal" class="px-4 py-1 rounded bg-blue-500 hover:bg-blue-700 text-white"><i class="fa-solid fa-file-circle-plus"></i></a>
+            </div>
+
+            <div id="recordsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+                <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+                    <div class="bg-[#4b9cd3;] rounded-lg py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold mb-10">
+                        <h4>Add Record</h4>
+                    </div>
+                    <form method="post" action="{{ route('admin.record.store') }}" enctype="multipart/form-data">
+                        @csrf
+                        
+                        <input type="hidden" name="patientlist_id" value="{{ $patientlist->id }}">
+                        
+                        <div class="mb-3">
+                            <label for="file" class="font-semibold">File</label>
+                            <input type="file" class="w-full pb-5 " id="file" name="file" required>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white">Upload File</button>
+                            <button type="submit" id="closeModal" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <h1 class="text-xl font-bold">Files</h1>
             <div class="max-h-96 overflow-y-auto overflow-x-auto border-t-2 border-b">
                 
@@ -109,45 +183,7 @@
             <h1 class="text-xl font-bold border-b-2">Upcoming Appointment</h1>
         </div>
 
-        <!-- Patient notes -->
-        <div class="col-start-2 bg-white shadow-md p-5 rounded-xl h-[250px]">
-            <div class="flex justify-between">
-                <h1 class="text-xl font-bold">Notes</h1>
-                <!-- Button to open modal -->
-                <button id="openModalBtn" class="px-4 py-1 bg-blue-500 text-white rounded">Add Notes</button>
-            </div>
-
-            <!-- Display Notes -->
-            <div class="relative">
-                <table class="">
-                    <tbody>
-                        @foreach ($notes as $note)
-                            <tr class="">
-                                <td class="">{{ $note->note }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Modal Structure -->
-            <div id="notesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
-                <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-                    <h2 class="text-2xl font-semibold mb-4">Add a Note</h2>
-                    <form method="post" action="{{ route('admin.note.store') }}">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
-                            <textarea id="note" name="note" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter note" required></textarea>
-                        </div>
-                        <div class="flex justify-end space-x-2">
-                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Save Notes</button>
-                            <button type="button" id="closeModalBtn" class="px-4 py-2 bg-gray-500 text-white rounded">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
 
     </div>
 
@@ -168,6 +204,25 @@
         window.addEventListener('click', (event) => {
             if (event.target === notesModal) {
                 notesModal.classList.add('hidden');
+            }
+        });
+
+        const openModal = document.getElementById('openModal');
+        const closeModal = document.getElementById('closeModal');
+        const recordsModal = document.getElementById('recordsModal');
+
+        openModal.addEventListener('click', () => {
+            recordsModal.classList.remove('hidden');
+        });
+
+        closeModal.addEventListener('click', () => {
+            recordsModal.classList.add('hidden');
+        });
+
+        // Close modal if clicking outside the modal-content
+        window.addEventListener('click', (event) => {
+            if (event.target === recordsModal) {
+                recordsModal.classList.add('hidden');
             }
         });
     </script>

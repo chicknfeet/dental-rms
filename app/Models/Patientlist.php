@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patientlist extends Model
 {
+    protected $table = 'patientlists';
+
     protected $fillable = ['firstname', 'lastname', 'gender', 'birthday', 'age', 'phone', 'address', 'email'];
     
     
@@ -16,7 +18,7 @@ class Patientlist extends Model
 
     public function notes()
     {
-        return $this->hasMany(Note::class, 'patientlist_id');
+        return $this->hasOne(Note::class, 'patientlist_id');
     }
 
 }

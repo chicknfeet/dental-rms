@@ -16,7 +16,7 @@ class AdminRecordController extends Controller
         $patientlist = Patientlist::findOrFail($patientlistId);
     
         // Pass the patient list to the view
-        return view('admin.record.create', compact('patientlist'));
+        return view('admin.patientlist.showRecord', compact('patientlist'));
     }
     
     public function storeRecord(Request $request)
@@ -44,7 +44,7 @@ class AdminRecordController extends Controller
                 'patientlist_id' => $request->input('patientlist_id'),
             ]);
 
-            return redirect()->route('admin.record.create', ['patientlistId' => $request->input('patientlist_id')])
+            return redirect()->route('admin.showRecord', ['patientlistId' => $request->input('patientlist_id')])
                             ->with('success', 'Record added successfully!');
         } else {
             return redirect()->back()->with('error', 'No file uploaded.');
@@ -129,8 +129,8 @@ class AdminRecordController extends Controller
     public function storeNote(Request $request)
     {
         $request->validate([
-            'note' => 'required|string',
-            'patientlist_id' => 'required|exists:users,id'
+            'note' => 'required|string|max:255',
+            'patientlist_id' => 'required|exists:patientlists,id'
         ]);
 
         Note::create([
@@ -138,7 +138,7 @@ class AdminRecordController extends Controller
             'patientlist_id' => $request->input('patientlist_id'),
         ]);
 
-        return redirect()->route('admin.showRecord')
+        return redirect()->route('admin.showRecord', ['patientlistId' => $request->input('patientlist_id')])
             ->with('success', 'Note added successfully!');
     }
 }
