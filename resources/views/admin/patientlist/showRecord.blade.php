@@ -10,7 +10,7 @@
 <body>
 
     <div style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold" style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
-        <h4><i class="fa-solid fa-users"></i> Patient List / {{ $patientlist->name }}</h4>
+        <h4><i class="fa-solid fa-users"></i> Patient List / {{ $patientlist->firstname }} {{ $patientlist->lastname }}</h4>
     </div>
 
     <div class="grid grid-flow-col grid-cols-3 grid-rows-2 gap-4 p-5 max-h-screen">
@@ -22,16 +22,20 @@
                 <table class="min-w-full bg-white text-left rtl:text-right mb-4">
                     <thead class="whitespace-nowrap overflow-hidden">
                         <tr>
-                            <td>Name:</td>
-                            <th>{{ $patientlist->name }}</th>
+                            <td>Full Name:</td>
+                            <th>{{ $patientlist->firstname }} {{ $patientlist->lastname }}</th>
                         </tr>
                         <tr>
-                            <td>Gender:</td>
-                            <th>{{ $patientlist->gender }}</th>
+                            <td>Birthday:</td>
+                            <th>{{ $patientlist->birthday }}</th>
                         </tr>
                         <tr>    
                             <td>Age:</td>
                             <th>{{ $patientlist->age }}</th>
+                        </tr>
+                        <tr>
+                            <td>Gender:</td>
+                            <th>{{ $patientlist->gender }}</th>
                         </tr>
                         <tr>
                             <td>Phone No:</td>
@@ -40,6 +44,10 @@
                         <tr>
                             <td>Address:</td>
                             <th>{{ $patientlist->address }}</th>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <th>{{ $patientlist->email }}</th>
                         </tr>
                     </thead>
                 </table>
@@ -59,6 +67,7 @@
                     {{ session('success') }}
                 </div>
             @endif
+
             <div class="flex justify-between mb-4">
                 <h1 class="text-2xl font-bold"><i class="fa-regular fa-folder-open"></i> List of Records</h1>
                 <a href="{{ route('admin.record.create', $patientlist->id) }}" class="px-4 py-1 rounded bg-blue-500 hover:bg-blue-700 text-white"><i class="fa-solid fa-file-circle-plus"></i></a>
@@ -110,9 +119,13 @@
 
             <!-- Display Notes -->
             <div class="relative">
-                <table>
+                <table class="">
                     <tbody>
-                        <!-- foreach here -->
+                        @foreach ($notes as $note)
+                            <tr class="">
+                                <td class="">{{ $note->note }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -121,7 +134,8 @@
             <div id="notesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
                 <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
                     <h2 class="text-2xl font-semibold mb-4">Add a Note</h2>
-                    <form id="notesForm">
+                    <form method="post" action="{{ route('admin.note.store') }}">
+                        @csrf
                         <div class="mb-4">
                             <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
                             <textarea id="note" name="note" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter note" required></textarea>

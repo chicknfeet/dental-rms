@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
+use App\Models\Note;
 use Illuminate\Http\Request;
 use App\Models\Patientlist;
 use App\Models\Record;
@@ -66,8 +67,8 @@ class AdminRecordController extends Controller
         
         // Assuming records are associated with the patient list through a one-to-many relationship
         $records = Record::where('patientlist_id', $patientlistId)->get();
-
-        return view('admin.patientlist.showRecord', compact('patientlist', 'records'));
+        $notes = Note::where('patientlist_id', $patientlistId)->get();
+        return view('admin.patientlist.showRecord', compact('patientlist', 'records', 'notes'));
     }
 
     public function updateRecord($patientlistId, $recordId)
@@ -116,5 +117,28 @@ class AdminRecordController extends Controller
     {
         $record = Record::findOrFail($recordId);
         return response()->download(storage_path('app/' . $record->file));
+    }
+
+
+    public function createNote($patientlistId){
+        $patientlist = Patientlist::findOrFail($patientlistId);
+
+        return view('admin.patientlist.showRecord', compact('patientlist'));
+    }
+
+    public function storeNote(Request $request)
+    {
+        $request->validate([
+            'note' => 'required|string',
+            'patientlist_id' => 'required|exists:users,id'
+        ]);
+
+        Note::create([
+            'note' => $request->input('note'),
+            'patientlist_id' => $request->input('patientlist_id'),
+        ]);
+
+        return redirect()->route('admin.showRecord')
+            ->with('success', 'Note added successfully!');
     }
 }

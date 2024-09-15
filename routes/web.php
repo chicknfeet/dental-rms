@@ -60,6 +60,8 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin']], function () {
     Route::delete('/admin/records/{patientlist}/{record}', [AdminRecordController::class, 'deleteRecord'])->name('admin.deleteRecord');
     Route::get('/admin/records/download/{record}', [AdminRecordController::class, 'downloadRecord'])->name('admin.downloadRecord');
 
+    Route::get('/admin/patientlist/{patientlistId}/record/note/add', [AdminRecordController::class, 'createNote'])->name('admin.note.create');
+    Route::post('/admin/note/store', [AdminRecordController::class, 'storeNote'])->name('admin.note.store');
 
     Route::get('/admin/search', [AdminPatientlistController::class, 'search'])->name('admin.search');
 
@@ -113,6 +115,7 @@ Route::group(['middleware' => ['auth', 'checkUserType:patient']], function () {
     // messages
     Route::get('/patient/messages',[PatientMessagesController::class,'index'])->name('patient.messages');
     Route::post('/patient/messages', [PatientMessagesController::class, 'storeMessage'])->name('patient.messages.store');
+    Route::get('/patient/messages/search', [PatientMessagesController::class, 'search'])->name('patient.messages.search');
     // payment info
     Route::get('/patient/paymentinfo',[PatientPaymentInfoController::class,'index'])->name('patient.paymentinfo');
     Route::get('/patient/payment/add', [PatientPaymentInfoController::class, 'createPayment'])->name('patient.payment.create');
