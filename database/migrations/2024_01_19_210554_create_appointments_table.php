@@ -17,7 +17,7 @@ return new class extends Migration
             $table->time('appointmenttime');
             $table->string('firstname');
             $table->string('lastname');
-            $table->date('dateofbirth');
+            $table->date('birthday');
             $table->string('gender');
             $table->string('address');
             $table->string('phone');

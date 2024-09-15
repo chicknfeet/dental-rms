@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreign('patientlist_id')->references('id')->on('patientlists');
             $table->string('file');
             $table->timestamps();
-        
         });
     }
 

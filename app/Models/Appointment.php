@@ -13,7 +13,7 @@ class Appointment extends Model
         'appointmenttime',
         'firstname',
         'lastname',
-        'dateofbirth',
+        'birthday',
         'gender',
         'address',
         'phone',

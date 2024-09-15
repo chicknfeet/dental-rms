@@ -19,19 +19,25 @@ class AdminPatientListController extends Controller
 
     public function storePatient(Request $request){
         $request->validate([
-            'name' => 'required|string|max:255',
-            'gender' => 'required|string|max:6',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'birthday' => 'required|date',
             'age' => 'required|integer',
-            'phone' => 'required|String|max:11',
+            'gender' => 'required|string',
+            'phone' => 'required|string|regex:/^0[0-9]{10}$/',
             'address' => 'required|string',
+            'email' => 'required|string|lowercase|email|max:255',
         ]);
 
-        $patient = Patientlist::create([
-            'name' => $request->input('name'),
-            'gender' => $request->input('gender'),
+        Patientlist::create([
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'birthday' => $request->input('birthday'),
             'age' => $request->input('age'),
+            'gender' => $request->input('gender'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
+            'email' => $request->input('email'),
         ]);
 
         return redirect()->route('admin.patientlist')
@@ -56,19 +62,25 @@ class AdminPatientListController extends Controller
         $patient = Patientlist::findOrFail($id);
         
         $request->validate([
-            'name' => 'required|string',
-            'gender' => 'required|string',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'birthday' => 'required|date',
             'age' => 'required|integer',
-            'phone' => 'required|String',
+            'gender' => 'required|string',
+            'phone' => 'required|string|regex:/^0[0-9]{10}$/',
             'address' => 'required|string',
+            'email' => 'required|string|lowercase|email|max:255',
         ]);
 
         $patient->update([
-            'name' => $request->input('name'),
-            'gender' => $request->input('gender'),
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'birthday' => $request->input('birthday'),
             'age' => $request->input('age'),
+            'gender' => $request->input('gender'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
+            'email' => $request->input('email'),
         ]);
 
         return redirect()->route('admin.patientlist')
@@ -79,12 +91,15 @@ class AdminPatientListController extends Controller
     {
         $query = $request->input('query');
 
-        $patientlist = Patientlist::where('name', 'like', "%$query%")
-                                  ->orWhere('gender', 'like', "%$query%")
-                                  ->orWhere('age', 'like', "%$query%")
-                                  ->orWhere('phone', 'like', "%$query%")
-                                  ->orWhere('address', 'like', "%$query%")
-                                  ->paginate(10);
+        $patientlist = Patientlist::where('firstname', 'like', "%$query%")
+                                ->orWhere('lastname', 'like', "%$query%")
+                                ->orWhere('birthday', 'like', "%$query%")
+                                ->orWhere('age', 'like', "%$query%")
+                                ->orWhere('gender', 'like', "%$query%")
+                                ->orWhere('phone', 'like', "%$query%")
+                                ->orWhere('address', 'like', "%$query%")
+                                ->orWhere('email', 'like', "%$query%")
+                                ->paginate(10);
 
         return view('admin.patientlist.patientlist', compact('patientlist'));
     }

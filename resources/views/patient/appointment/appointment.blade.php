@@ -66,8 +66,8 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="dateofbirth" class="font-semibold">Date of Birth:</label>
-                        <input type="date" class="rounded-lg focus:ring-2 shadow-sm w-full" id="dateofbirth" name="dateofbirth" required>
+                        <label for="birthday" class="font-semibold">Birthday:</label>
+                        <input type="date" class="rounded-lg focus:ring-2 shadow-sm w-full" id="birthday" name="birthday" required>
                     </div>
                     
                     <div>

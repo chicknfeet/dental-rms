@@ -38,21 +38,23 @@
         <table class="min-w-full bg-white text-left rtl:text-right">
             <thead class="text-gray-800">
                 <tr class="border-b-2">
-                    <th scope="col" class="px-6 py-4">Name</th>
-                    <th scope="col" class="px-6 py-4">Gender</th>
+                    <th scope="col" class="px-6 py-4">First Name</th>
+                    <th scope="col" class="px-6 py-4">Last Name</th>
                     <th scope="col" class="px-6 py-4">Age</th>
+                    <th scope="col" class="px-6 py-4">Gender</th>
                     <th scope="col" class="px-6 py-4">Phone No.</th>
-                    <th scope="col" class="px-6 py-4">Address</th>
+                    <th scope="col" class="px-6 py-4">Email</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($patientlist as $patient)
                     <tr class="bg-white border-b hover:bg-gray-100">
-                        <td class="px-6 py-4">{{ $patient->name }}</td>
-                        <td class="px-6 py-4">{{ $patient->gender }}</td>
+                        <td class="px-6 py-4">{{ $patient->firstname }}</td>
+                        <td class="px-6 py-4">{{ $patient->lastname }}</td>
                         <td class="px-6 py-4">{{ $patient->age }}</td>
+                        <td class="px-6 py-4">{{ $patient->gender }}</td>
                         <td class="px-6 py-4">{{ $patient->phone}}</td>
-                        <td class="px-6 py-4">{{ $patient->address}}</td>
+                        <td class="px-6 py-4">{{ $patient->email }}</td>
                         <td class="px-6 py-4">
                             <a href="{{ route('admin.showRecord', $patient->id) }}" class="px-4 py-2 rounded text-blue-800 hover:bg-blue-200 transition duration-300"><i class="fa-solid fa-folder-closed"></i> Records</a>
                             <a href="{{ route('admin.updatePatient', $patient->id) }}" class="px-4 py-2 rounded text-gray-800 hover:bg-gray-200 transition duration-300"><i class="fa-solid fa-pen"></i> Edit</a>

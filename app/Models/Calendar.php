@@ -13,7 +13,7 @@ class Calendar extends Model
         'appointmenttime',
         'firstname',
         'lastname',
-        'dateofbirth',
+        'birthday',
         'gender',
         'address',
         'phone',
