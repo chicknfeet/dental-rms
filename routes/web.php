@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin']], function () {
     Route::put('/admin/patientlist/{patientlistId}/record//updated/{recordId}', [AdminRecordController::class, 'updatedRecord'])->name('admin.record.update');
     Route::delete('/admin/records/{patientlist}/{record}', [AdminRecordController::class, 'deleteRecord'])->name('admin.deleteRecord');
     Route::get('/admin/records/download/{record}', [AdminRecordController::class, 'downloadRecord'])->name('admin.downloadRecord');
-    Route::get('/admin/patientlist/{patientlistId}/records/count', [AdminRecordController::class, 'showRecords']);
+    Route::get('/admin/patientlist/{patientlistId}/records/{recordId}/count', [AdminRecordController::class, 'showRecords']);
 
     Route::get('/admin/patientlist/{patientlistId}/record/note/add', [AdminRecordController::class, 'createNote'])->name('admin.note.create');
     Route::post('/admin/note/store', [AdminRecordController::class, 'storeNote'])->name('admin.note.store');

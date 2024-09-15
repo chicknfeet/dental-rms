@@ -67,8 +67,11 @@ class AdminRecordController extends Controller
         
         // Assuming records are associated with the patient list through a one-to-many relationship
         $records = Record::where('patientlist_id', $patientlistId)->get();
+
         $notes = Note::where('patientlist_id', $patientlistId)->get();
-        $count = Record::count();
+
+        $count = $records->count();
+        
         return view('admin.patientlist.showRecord', compact('patientlist', 'records', 'notes') , ['count' => $count]);
     }
 
