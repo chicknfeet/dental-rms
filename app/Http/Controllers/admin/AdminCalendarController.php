@@ -111,4 +111,10 @@ class AdminCalendarController extends Controller
         return redirect()->route('admin.calendar')
             ->with('success', 'Appointment updated successfully!');
     }
+
+    public function viewDetails($Id){
+        $calendar = Calendar::where('id', $Id)->first();
+
+        return view('admin.calendar.viewDetails', compact('calendar'));
+    }
 }

@@ -22,32 +22,32 @@
                 <table class="min-w-full bg-white text-left rtl:text-right mb-4">
                     <thead class="whitespace-nowrap overflow-hidden">
                         <tr>
-                            <td>Full Name:</td>
-                            <th>{{ $patientlist->firstname }} {{ $patientlist->lastname }}</th>
+                            <th>Full Name:</th>
+                            <td>{{ $patientlist->firstname }} {{ $patientlist->lastname }}</td>
                         </tr>
                         <tr>
-                            <td>Birthday:</td>
-                            <th>{{ $patientlist->birthday }}</th>
+                            <th>Birthday:</th>
+                            <td>{{ $patientlist->birthday }}</td>
                         </tr>
                         <tr>    
-                            <td>Age:</td>
-                            <th>{{ $patientlist->age }}</th>
+                            <th>Age:</th>
+                            <td>{{ $patientlist->age }}</td>
                         </tr>
                         <tr>
-                            <td>Gender:</td>
-                            <th>{{ $patientlist->gender }}</th>
+                            <th>Gender:</th>
+                            <td>{{ $patientlist->gender }}</td>
                         </tr>
                         <tr>
-                            <td>Phone No:</td>
-                            <th>{{ $patientlist->phone }}</th>
+                            <th>Phone No:</th>
+                            <td>{{ $patientlist->phone }}</td>
                         </tr>
                         <tr>
-                            <td>Address:</td>
-                            <th>{{ $patientlist->address }}</th>
+                            <th>Address:</th>
+                            <td>{{ $patientlist->address }}</td>
                         </tr>
                         <tr>
-                            <td>Email:</td>
-                            <th>{{ $patientlist->email }}</th>
+                            <th>Email:</th>
+                            <td>{{ $patientlist->email }}</td>
                         </tr>
                     </thead>
                 </table>

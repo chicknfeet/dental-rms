@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 </head>
-<body>
+<body class="min-h-screen">
 
-    <div style="background-color: #4b9cd3; box-shadow: 0 2px 4px rgba(0,0,0,0.4);" class="header py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
+    <div class="bg-[#4b9cd3;] shadow-[0_2px_4px_rgba(0,0,0,0.4)] py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
         <h4><i class="fa-solid fa-calendar-days"></i> Calendar</h4>
     </div>
 
@@ -50,7 +50,7 @@
                     })->isNotEmpty();
                 @endphp
 
-                <div class="day bg-white min-h-[100px] flex flex-col items-center justify-center p-2.5 border border-gray-300 relative cursor-pointer {{ $hasAppointments ? 'bg-blue-300' : '' }}" onclick="toggleAppointments(this)">
+                <div class="day bg-white min-h-[100px] flex flex-col items-center justify-center p-2.5 border border-gray-300 relative cursor-pointer {{ $hasAppointments ? 'bg-blue-400' : '' }}" onclick="toggleAppointments(this)">
                     <div>{{ $dayOfMonth }}</div>
                     <div class="hourly-appointments hidden absolute top-full left-0 w-full bg-white shadow-lg z-50 p-2.5 max-h-[200px] overflow-y-auto">
                         @foreach (range(0, 23) as $hour)
@@ -69,17 +69,17 @@
                                     $startHour12 = $startHour12 === 0 ? 12 : $startHour12;
                                     $endHour12 = $endHour12 === 0 ? 12 : $endHour12;
                                 @endphp
-                                <div class="hourly-slot mb-1 p-1 border border-gray-300">
-                                    <strong>{{ $startHour12 }}:00 {{ $startPeriod }} - {{ $endHour12 }}:00 {{ $endPeriod }}</strong>
+                                <div class="hourly-slot mb-1 p-1 text-center border-2 border-gray-200 rounded shadow-md">
+                                    <strong>{{ $startHour12 }}:00{{ $startPeriod }} - {{ $endHour12 }}:00{{ $endPeriod }}</strong>
                                     @php $hasAppointment = false; @endphp
                                     @foreach ($calendars as $calendar)
                                         @if (date('j', strtotime($calendar->appointmentdate)) == $dayOfMonth && date('G', strtotime($calendar->appointmenttime)) == $hour)
-                                            <div class="appointment bg-[#f1eaead3] p-[5px] mt-[5px] rounded text-center w-full box-border">
+                                            <div class="appointment bg-gray-200 p-2 mt-1 rounded text-center w-full box-border">
                                                 <strong>{{ $calendar->time }}</strong><br>
                                                 {{ $calendar->firstname }} {{ $calendar->lastname }}
-                                                <div class="appointment-buttons mt-1 flex justify-between">
-                                                    <a href="{{ route('admin.updateCalendar', $calendar->id) }}" class="py-1 px-2 rounded bg-white hover:bg-gray-300 text-gray-800 mr-[5px] inline-block" title="Update"><i class="fa-solid fa-pen"></i></a>
-                                                    <form method="post" action="{{ route('admin.deleteCalendar', $calendar->id) }}" class="mr-[5px] inline-block" style="display: inline;">
+                                                <div class="appointment-buttons mt-5 flex justify-between">
+                                                    <a href="{{ route('admin.updateCalendar', $calendar->id) }}" class="py-1 px-2 rounded bg-white hover:bg-gray-300 text-gray-800" title="Update"><i class="fa-solid fa-pen"></i></a>
+                                                    <form method="post" action="{{ route('admin.deleteCalendar', $calendar->id) }}">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="py-1 px-2 rounded bg-white text-red-800 hover:bg-red-200" title="Delete" onclick="return confirm('Are you sure you want to delete this appointment?')"><i class="fa-solid fa-trash"></i></button>
