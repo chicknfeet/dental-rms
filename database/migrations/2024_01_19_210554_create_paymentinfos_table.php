@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('paymentinfos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('users_id');
             $table->string('patient');
             $table->string('description');
             $table->integer('amount');
             $table->integer('balance');
             $table->date('date');
             $table->timestamps();
+
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
+            
         });
     }
 

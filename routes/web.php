@@ -125,6 +125,8 @@ Route::group(['middleware' => ['auth', 'checkUserType:patient']], function () {
     Route::get('/patient/payment/update/{id}', [PatientPaymentInfoController::class, 'updatePayment'])->name('patient.updatePayment');
     Route::put('/patient/payment/updated/{id}', [PatientPaymentInfoController::class, 'updatedPayment'])->name('patient.updatedPayment');
     Route::delete('/patient/payment/delete/{id}', [PatientPaymentInfoController::class, 'deletePayment'])->name('patient.deletePayment');
+    
+    Route::get('/patient/payment/search', [PatientPaymentInfoController::class, 'search'])->name('patient.paymentinfo.search');
     // calendar
     Route::get('/patient/calendar',[PatientCalendarController::class,'index'])->name('patient.calendar');
     Route::get('/patient/calendar/appointment/update/{id}', [PatientCalendarController::class, 'updateCalendar'])->name('patient.updateCalendar');

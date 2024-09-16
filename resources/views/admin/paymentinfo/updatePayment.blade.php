@@ -1,4 +1,5 @@
 <x-app-layout>
+@section('title', 'Update Payment')
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +15,7 @@
     </div>
     
     @if ($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger w-1/2 mx-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -22,9 +23,20 @@
             </ul>
         </div>
     @endif
-    <form method="post" action="{{ route('admin.updatedPayment', $payment->id) }}"  class="w-1/2 mx-auto bg-white rounded-lg shadow-md p-10">
+
+    <form method="post" action="{{ route('admin.updatedPayment', $payment->id) }}" class="w-1/2 mx-auto bg-white rounded-lg shadow-md p-10">
         @csrf
         @method('PUT')
+        <div class="mb-4">
+            <label for="users_id" class="font-semibold">User</label>
+            <select class="w-full rounded-lg focus:ring-2 shadow-sm" id="users_id" name="users_id" required>
+                @foreach($users as $user)
+                    <option value="{{ $user->id }}" {{ old('users_id', $payment->users_id) == $user->id ? 'selected' : '' }}>
+                        {{ $user->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <div class="mb-4">
             <label for="patient" class="font-semibold">Patient</label>
             <input type="text" class="w-full rounded-lg focus:ring-2 shadow-sm" id="patient" name="patient" value="{{ old('patient', $payment->patient) }}" required>
@@ -35,7 +47,7 @@
         </div>
         <div class="mb-4 form-inline">
             <label for="amount" class="font-semibold">Amount</label>
-            <input type="number" class="w-full rounded-lg focus:ring-2 shadow-sm" id="amount" name="amount" value="{{  old('amount', $payment->amount) }}" required>
+            <input type="number" class="w-full rounded-lg focus:ring-2 shadow-sm" id="amount" name="amount" value="{{ old('amount', $payment->amount) }}" required>
         </div>
         <div class="mb-4 form-inline">
             <label for="balance" class="font-semibold balance">Balance</label>
@@ -43,7 +55,7 @@
         </div>
         <div class="mb-4">
             <label for="date" class="font-semibold">Date</label>
-            <input type="date" class="w-full rounded-lg focus:ring-2 shadow-sm" id="date" name="date" value="{{  old('date', $payment->date) }}" required>
+            <input type="date" class="w-full rounded-lg focus:ring-2 shadow-sm" id="date" name="date" value="{{ old('date', $payment->date) }}" required>
         </div>
         <div class="text-right">
             <button type="submit" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white"><i class="fa-solid fa-pen-to-square"></i> Save</button>
@@ -52,9 +64,5 @@
     </form>
 </body>
 </html>
-
-@section('title')
-    Update Payment
-@endsection
 
 </x-app-layout>

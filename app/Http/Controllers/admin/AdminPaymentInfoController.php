@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\PaymentInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminPaymentInfoController extends Controller
 {
@@ -14,11 +16,13 @@ class AdminPaymentInfoController extends Controller
     }
 
     public function createPayment(){
-        return view('admin.paymentinfo.create');
+        $users = User::all();
+        return view('admin.paymentinfo.create', compact('users'));
     }
 
     public function storePayment(Request $request){
-        $request->validate([
+        $request->validate([ 
+            'users_id' => 'required|exists:users,id',
             'patient' => 'required|string',
             'description' => 'required|string',
             'amount' => 'required|integer',
@@ -27,6 +31,7 @@ class AdminPaymentInfoController extends Controller
         ]);
 
         $payment = PaymentInfo::create([
+            'users_id' => $request->input('users_id'),
             'patient' => $request->input('patient'),
             'description' => $request->input('description'),
             'amount' => $request->input('amount'),
@@ -46,9 +51,11 @@ class AdminPaymentInfoController extends Controller
             ->with('success', 'Payment deleted successfully!');
     }
 
+   
     public function updatePayment($id){
         $payment = PaymentInfo::findOrFail($id);
-        return view('admin.paymentinfo.updatePayment')->with('payment', $payment);
+        $users = User::all();
+        return view('admin.paymentinfo.updatePayment', compact('payment', 'users'));
     }
 
     public function updatedPayment(Request $request, $id){
@@ -56,6 +63,7 @@ class AdminPaymentInfoController extends Controller
         $patient = PaymentInfo::findOrFail($id);
         
         $request->validate([
+            'users_id' => 'required|exists:users,id',
             'patient' => 'required|string',
             'description' => 'required|string',
             'amount' => 'required|integer',
@@ -64,6 +72,7 @@ class AdminPaymentInfoController extends Controller
         ]);
 
         $patient->update([
+            'users_id' => $request->input('users_id'),
             'patient' => $request->input('patient'),
             'description' => $request->input('description'),
             'amount' => $request->input('amount'),

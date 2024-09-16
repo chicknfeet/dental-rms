@@ -23,6 +23,10 @@ class User extends Authenticatable
         'usertype',
         'password',
     ];
+    public function paymentInfos()
+    {
+        return $this->hasMany(PaymentInfo::class, 'users_id');
+    }
 
     public function sentMessages()
     {

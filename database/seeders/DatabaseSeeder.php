@@ -66,9 +66,9 @@ class DatabaseSeeder extends Seeder
         PaymentInfo::truncate();
 
         $payments = [
-            ['patient' => 'Emily', 'description' => 'Cleaning', 'amount' => 11000, 'balance' => 2000, 'date' => '2024-02-28'],
-            // Add more payments here...
-            ['patient' => 'Olivia', 'description' => 'Orthodontic Treatment', 'amount' => 25000, 'balance' => 11000, 'date' => '2024-02-10'],
+            // ['patient' => 'Emily', 'description' => 'Cleaning', 'amount' => 11000, 'balance' => 2000, 'date' => '2024-02-28'],
+            // // Add more payments here...
+            // ['patient' => 'Olivia', 'description' => 'Orthodontic Treatment', 'amount' => 25000, 'balance' => 11000, 'date' => '2024-02-10'],
         ];
 
         foreach ($payments as $payment) {

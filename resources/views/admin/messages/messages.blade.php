@@ -65,50 +65,99 @@
         </div>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add click event listeners to user items
-        document.querySelectorAll('.user-item').forEach(item => {
-            item.addEventListener('click', function() {
-                selectUser(item.dataset.username, item.dataset.userid);
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectedUser = localStorage.getItem('selectedUser');
+
+            // Add click event listeners to user items
+            document.querySelectorAll('.user-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    selectUser(item.dataset.username, item.dataset.userid);
+                });
+            });
+
+            // Select the default user or the last selected user
+            if (selectedUser) {
+                let userItem = document.querySelector(`.user-item[data-username="${selectedUser}"]`);
+                if (userItem) {
+                    selectUser(userItem.dataset.username, userItem.dataset.userid);
+                }
+            } else {
+                let firstUser = document.querySelector('.user-item');
+                if (firstUser) {
+                    selectUser(firstUser.dataset.username, firstUser.dataset.userid);
+                }
+            }
+
+            // Handle form submission
+            document.getElementById('chat-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                let form = this;
+                let formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        addMessageToChat({
+                            sender_id: '{{ auth()->id() }}',
+                            sender_name: 'You',
+                            message: formData.get('message'),
+                            recipient_id: formData.get('recipient_id')
+                        });
+                        updateChatList({
+                            sender_id: formData.get('recipient_id'),
+                            message: formData.get('message')
+                        });
+                        form.reset();
+                    } else {
+                        console.error('Error sending message:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             });
         });
 
-        // Select the default user
-        let firstUser = document.querySelector('.user-item');
-        if (firstUser) {
-            selectUser(firstUser.dataset.username, firstUser.dataset.userid);
+        function selectUser(username, userid) {
+            localStorage.setItem('selectedUser', username);
+            document.querySelectorAll('.user-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            let selectedUserItem = document.querySelector(`.user-item[data-username="${username}"]`);
+            if (selectedUserItem) {
+                selectedUserItem.classList.add('selected');
+                showChatPanel(username);
+                // Set the recipient_id in the form
+                document.getElementById('recipient_id').value = userid;
+            }
         }
-    });
 
-    function selectUser(username, userid) {
-        selectedUser = username;
-        document.querySelectorAll('.user-item').forEach(item => {
-            item.classList.remove('selected');
-        });
-        document.querySelector(`.user-item[data-username="${username}"]`).classList.add('selected');
-        showChatPanel(username);
+        function showChatPanel(username) {
+            // Hide all chat panels
+            document.querySelectorAll('.chat-messages').forEach(panel => {
+                panel.style.display = 'none';
+            });
 
-        // Set the recipient_id in the form
-        document.getElementById('recipient_id').value = userid;
-    }
-
-    function showChatPanel(username) {
-        // Hide all chat panels
-        document.querySelectorAll('.chat-messages').forEach(panel => {
-            panel.style.display = 'none';
-        });
-
-        // Show the selected user's chat panel
-        let chatPanel = document.getElementById(`chat-panel-${username}`);
-        if (chatPanel) {
-            chatPanel.style.display = 'block';
-        } 
-    }
-</script>
-    
-</html>
+            // Show the selected user's chat panel
+            let chatPanel = document.getElementById(`chat-panel-${username}`);
+            if (chatPanel) {
+                chatPanel.style.display = 'block';
+                chatPanel.scrollTop = chatPanel.scrollHeight;
+            } 
+        }
+    </script>
 </body>
+</html>
 
 @section('title')
     Messages
