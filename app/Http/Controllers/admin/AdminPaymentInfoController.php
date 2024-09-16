@@ -90,6 +90,6 @@ class AdminPaymentInfoController extends Controller
                                   ->orWhere('date', 'like', "%$query%")
                                   ->paginate(10);
 
-        return view('admin.paymentinfo.paymentinfo', compact('paymentinfo', ));
+        return view('admin.paymentinfo.paymentinfo', compact('paymentinfo'));
     }
 }

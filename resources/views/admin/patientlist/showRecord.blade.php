@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 </head>
-<body>
+<body class="min-h-screen">
 
     <div class="bg-[#4b9cd3;] shadow-[0_2px_4px_rgba(0,0,0,0.4)] py-4 px-6 flex justify-between items-center text-white text-2xl font-semibold">
         <h4><i class="fa-solid fa-users"></i> Patient List / {{ $patientlist->firstname }} {{ $patientlist->lastname }}</h4>
