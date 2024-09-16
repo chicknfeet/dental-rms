@@ -24,6 +24,7 @@ class AdminPaymentInfoController extends Controller
     public function storePayment(Request $request){
         $request->validate([ 
             'users_id' => 'required|exists:users,id',
+            'patientname' => 'required|string',
             'description' => 'required|string',
             'amount' => 'required|integer',
             'balance' => 'required|integer',
@@ -32,6 +33,7 @@ class AdminPaymentInfoController extends Controller
 
         $payment = PaymentInfo::create([
             'users_id' => $request->input('users_id'),
+            'patientname' => $request->input('patientname'),
             'description' => $request->input('description'),
             'amount' => $request->input('amount'),
             'balance' => $request->input('balance'),
@@ -63,6 +65,7 @@ class AdminPaymentInfoController extends Controller
         
         $request->validate([
             'users_id' => 'required|exists:users,id',
+            'patientname' => 'required|string',
             'description' => 'required|string',
             'amount' => 'required|integer',
             'balance' => 'required|integer',
@@ -71,6 +74,7 @@ class AdminPaymentInfoController extends Controller
 
         $patient->update([
             'users_id' => $request->input('users_id'),
+            'patientname' => $request->input('patientname'),
             'description' => $request->input('description'),
             'amount' => $request->input('amount'),
             'balance' => $request->input('balance'),
@@ -84,7 +88,8 @@ class AdminPaymentInfoController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-        $paymentinfo = PaymentInfo::Where('description', 'like', "%$query%")
+        $paymentinfo = PaymentInfo::Where('patientname', 'like', "%$query%")
+                                  ->orWhere('description', 'like', "%$query%")
                                   ->orWhere('amount', 'like', "%$query%")
                                   ->orWhere('balance', 'like', "%$query%")
                                   ->orWhere('date', 'like', "%$query%")

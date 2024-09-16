@@ -39,7 +39,7 @@
             <table class="min-w-full bg-white text-left rtl:text-right">
                 <thead class="text-gray-800">
                     <tr class="border-b-2">
-                        <th scope="col" class="px-6 py-4">Name</th>
+                        <th scope="col" class="px-6 py-4">Patient Name</th>
                         <th scope="col" class="px-6 py-4">Description</th>
                         <th scope="col" class="px-6 py-4">Amount</th>
                         <th scope="col" class="px-6 py-4">Balance</th>
@@ -49,7 +49,7 @@
                 <tbody>
                     @foreach ($paymentinfo as $payment)
                         <tr class="bg-white border-b hover:bg-gray-100">
-                            <td class="px-6 py-4">{{ $payment->user->name }}</td>
+                            <td class="px-6 py-4">{{ $payment->patientname }}</td>
                             <td class="px-6 py-4">{{ $payment->description }}</td>
                             <td class="px-6 py-4"><i class="fa-solid fa-peso-sign"></i>{{ $payment->amount }}</td>
                             <td class="px-6 py-4"><i class="fa-solid fa-peso-sign"></i>{{ $payment->balance }}</td>

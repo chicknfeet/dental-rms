@@ -40,6 +40,11 @@
         </div>
 
         <div class="mb-4">
+            <label for="patientname" class="font-semibold">Patient Name</label>
+            <input type="text" class="w-full rounded-lg focus:ring-2 shadow-sm" id="patientname" name="patientname" value="{{ old('patientname', $payment->patientname) }}" required>
+        </div>
+
+        <div class="mb-4">
             <label for="description" class="font-semibold">Description</label>
             <input type="text" class="w-full rounded-lg focus:ring-2 shadow-sm" id="description" name="description" value="{{ old('description', $payment->description) }}" required>
         </div>
@@ -68,7 +73,7 @@
 </html>
 
 @section('title')
-    Upadte Payment Info
+    Update Payment Info
 @endsection
 
 </x-app-layout>

@@ -36,6 +36,11 @@
                 @endforeach
             </select>
         </div>
+
+        <div class="mb-4">
+            <label for="patientname" class="font-semibold">Patient Name</label>
+            <input type="text" class="w-full rounded-lg focus:ring-2 shadow-sm" id="patientname" name="patientname" required>
+        </div>
         
         <div class="mb-4">
             <label for="description" class="font-semibold">Description</label>
