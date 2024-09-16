@@ -24,20 +24,18 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('admin.payment.store') }}" class="w-1/2 mx-auto bg-white rounded-lg shadow-md p-10">
+        <form method="post" action="{{ route('admin.payment.store') }}" class="w-1/2 mx-auto bg-white rounded-lg shadow-md p-10">
         @csrf
         <div class="mb-4">
             <label for="users_id" class="font-semibold">User</label>
             <select class="w-full rounded-lg focus:ring-2 shadow-sm" id="users_id" name="users_id" required>
                 <option value="">Select a user</option>
                 @foreach($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @if($user->usertype !== 'admin' && $user->usertype !== 'dentistrystudent')
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endif
                 @endforeach
             </select>
-        </div>
-        <div class="mb-4">
-            <label for="patient" class="font-semibold">Patient</label>
-            <input type="text" class="w-full rounded-lg focus:ring-2 shadow-sm" id="patient" name="patient" required value="{{ old('patient') }}">
         </div>
         <div class="mb-4">
             <label for="description" class="font-semibold">Description</label>
@@ -60,6 +58,7 @@
             <a href="{{ route('admin.paymentinfo') }}" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"><i class="fa-regular fa-rectangle-xmark"></i> Cancel</a>
         </div>
     </form>
+
 </body>
 </html>
 

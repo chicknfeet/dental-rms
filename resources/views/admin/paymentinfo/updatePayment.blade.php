@@ -31,15 +31,13 @@
             <label for="users_id" class="font-semibold">User</label>
             <select class="w-full rounded-lg focus:ring-2 shadow-sm" id="users_id" name="users_id" required>
                 @foreach($users as $user)
-                    <option value="{{ $user->id }}" {{ old('users_id', $payment->users_id) == $user->id ? 'selected' : '' }}>
-                        {{ $user->name }}
-                    </option>
+                    @if($user->usertype !== 'admin' && $user->usertype !== 'dentistrystudent')
+                        <option value="{{ $user->id }}" {{ old('users_id', $payment->users_id) == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endif
                 @endforeach
             </select>
-        </div>
-        <div class="mb-4">
-            <label for="patient" class="font-semibold">Patient</label>
-            <input type="text" class="w-full rounded-lg focus:ring-2 shadow-sm" id="patient" name="patient" value="{{ old('patient', $payment->patient) }}" required>
         </div>
         <div class="mb-4">
             <label for="description" class="font-semibold">Description</label>

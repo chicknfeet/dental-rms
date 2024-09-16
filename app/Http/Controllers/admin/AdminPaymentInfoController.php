@@ -12,7 +12,8 @@ class AdminPaymentInfoController extends Controller
     public function index(){   
         $paymentinfo = PaymentInfo::all();
         $paymentinfo = PaymentInfo::paginate(10);
-        return view('admin.paymentinfo.paymentinfo', compact('paymentinfo'));
+        $users = User::all();
+        return view('admin.paymentinfo.paymentinfo', compact('paymentinfo', 'users'));
     }
 
     public function createPayment(){
@@ -23,7 +24,6 @@ class AdminPaymentInfoController extends Controller
     public function storePayment(Request $request){
         $request->validate([ 
             'users_id' => 'required|exists:users,id',
-            'patient' => 'required|string',
             'description' => 'required|string',
             'amount' => 'required|integer',
             'balance' => 'required|integer',
@@ -32,7 +32,6 @@ class AdminPaymentInfoController extends Controller
 
         $payment = PaymentInfo::create([
             'users_id' => $request->input('users_id'),
-            'patient' => $request->input('patient'),
             'description' => $request->input('description'),
             'amount' => $request->input('amount'),
             'balance' => $request->input('balance'),
@@ -64,7 +63,6 @@ class AdminPaymentInfoController extends Controller
         
         $request->validate([
             'users_id' => 'required|exists:users,id',
-            'patient' => 'required|string',
             'description' => 'required|string',
             'amount' => 'required|integer',
             'balance' => 'required|integer',
@@ -73,7 +71,6 @@ class AdminPaymentInfoController extends Controller
 
         $patient->update([
             'users_id' => $request->input('users_id'),
-            'patient' => $request->input('patient'),
             'description' => $request->input('description'),
             'amount' => $request->input('amount'),
             'balance' => $request->input('balance'),
@@ -87,14 +84,12 @@ class AdminPaymentInfoController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-
-        $paymentinfo = PaymentInfo::where('patient', 'like', "%$query%")
-                                  ->orWhere('description', 'like', "%$query%")
+        $paymentinfo = PaymentInfo::Where('description', 'like', "%$query%")
                                   ->orWhere('amount', 'like', "%$query%")
                                   ->orWhere('balance', 'like', "%$query%")
                                   ->orWhere('date', 'like', "%$query%")
                                   ->paginate(10);
 
-        return view('admin.paymentinfo.paymentinfo', compact('paymentinfo'));
+        return view('admin.paymentinfo.paymentinfo', compact('paymentinfo', ));
     }
 }
