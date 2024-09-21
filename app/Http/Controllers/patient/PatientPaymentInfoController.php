@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 class PatientPaymentInfoController extends Controller
 {
-    public function index()
-    {
+    public function index(){
+
         $paymentinfo = PaymentInfo::where('users_id', Auth::id())->paginate(10);
+        
         return view('patient.paymentinfo.paymentinfo', compact('paymentinfo'));
     }
-    public function search(Request $request)
-    {
+
+    public function search(Request $request){
+
         $query = $request->input('query');
         $paymentinfo = PaymentInfo::where('users_id', Auth::id())
             ->where(function($q) use ($query) {
@@ -22,8 +24,7 @@ class PatientPaymentInfoController extends Controller
                   ->orWhere('amount', 'like', "%$query%")
                   ->orWhere('balance', 'like', "%$query%")
                   ->orWhere('date', 'like', "%$query%");
-            })
-            ->paginate(10);
+            })->paginate(10);
 
         return view('patient.paymentinfo.paymentinfo', compact('paymentinfo'));
     }

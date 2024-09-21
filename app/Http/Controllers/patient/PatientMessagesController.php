@@ -10,16 +10,16 @@ use App\Models\User;
 class PatientMessagesController extends Controller
 {
     
-    public function index()
-    {
+    public function index(){
+        
         $users = User::where('id', '!=', auth()->id())->get();
         $messages = Message::all();
 
         return view('patient.messages.messages', compact('users', 'messages'));
     }
 
-    public function storeMessage(Request $request)
-    {
+    public function storeMessage(Request $request){
+
         $request->validate([
             'recipient_id' => 'required|exists:users,id', // Ensure recipient exists in users table
             'message' => 'required|string',
@@ -32,8 +32,7 @@ class PatientMessagesController extends Controller
             'message' => $request->input('message'),
         ]);
 
-        return redirect()->route('patient.messages')
-            ->with('success', 'Message sent successfully!');
+        return redirect()->route('patient.messages')->with('success', 'Message sent successfully!');
     }
     
 }

@@ -23,18 +23,28 @@ class User extends Authenticatable
         'usertype',
         'password',
     ];
-    public function paymentInfos()
-    {
+
+    public function patientlist(){
+        return $this->hasMany(Patientlist::class, 'users_id');
+    }
+
+    public function appointments(){
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function calendars(){
+        return $this->hasMany(Calendar::class);
+    }
+
+    public function paymentInfos(){
         return $this->hasMany(PaymentInfo::class, 'users_id');
     }
 
-    public function sentMessages()
-    {
+    public function sentMessages(){
         return $this->hasMany(Message::class, 'sender_id');
     }
 
-    public function receivedMessages()
-    {
+    public function receivedMessages(){
         return $this->hasMany(Message::class, 'recipient_id');
     }
 

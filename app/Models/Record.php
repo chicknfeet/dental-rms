@@ -10,8 +10,7 @@ class Record extends Model
 
     protected $fillable = ['file', 'patientlist_id'];
 
-    public function patientlist()
-    {
+    public function patientlist(){
         return $this->belongsTo(Patientlist::class, 'patientlist_id');
     }
 

@@ -10,8 +10,7 @@ class Note extends Model
 
     protected $fillable = ['note', 'patientlist_id'];
 
-    public function patientlist()
-    {
+    public function patientlist(){
         return $this->belongsTo(Patientlist::class, 'patientlist_id');
     }
 

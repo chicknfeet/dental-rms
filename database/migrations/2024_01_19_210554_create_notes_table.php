@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('patientlist_id');
-            // $table->foreign('patientlist_id')->references('id')->on('patientlists');
             $table->string('note');
             $table->timestamps();
         });

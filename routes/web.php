@@ -45,26 +45,29 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin']], function () {
     Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     // paitent list
     Route::get('/admin/patientlist',[AdminPatientListController::class,'index'])->name('admin.patientlist');
-    Route::get('/admin/patient/add', [AdminPatientListController::class, 'createPatient'])->name('admin.patient.create');
-    Route::post('/admin/patient/store', [AdminPatientListController::class, 'storePatient'])->name('admin.patient.store');
-    Route::post('/admin/patientlist/patient/{patientlistId}', [AdminPatientListController::class, 'addPatient'])->name('admin.addPatient');
-    Route::get('/admin/patientlist/update/{id}', [AdminPatientListController::class, 'updatePatient'])->name('admin.updatePatient');
-    Route::put('/admin/patientlist/updated/{id}', [AdminPatientListController::class, 'updatedPatient'])->name('admin.updatedPatient');
-    Route::delete('/admin/patientlist/delete/{id}', [AdminPatientListController::class, 'deletePatient'])->name('admin.deletePatient');
+    Route::get('/admin/patientlist/add', [AdminPatientListController::class, 'createPatient'])->name('admin.patient.create');
+    Route::post('/admin/patientlist/store', [AdminPatientListController::class, 'storePatient'])->name('admin.patient.store');
+    Route::post('/admin/patientlist/{patientlistId}', [AdminPatientListController::class, 'addPatient'])->name('admin.addPatient');
+    Route::get('/admin/patientlist/{patientlistId}/update', [AdminPatientListController::class, 'updatePatient'])->name('admin.updatePatient');
+    Route::put('/admin/patientlist/{patientlistId}/updated', [AdminPatientListController::class, 'updatedPatient'])->name('admin.updatedPatient');
+    Route::delete('/admin/patientlist/{patientlistId}/delete', [AdminPatientListController::class, 'deletePatient'])->name('admin.deletePatient');
+    
+    Route::get('/admin/patientlist/search', [AdminPatientlistController::class, 'search'])->name('admin.search');
+    
     // record
     Route::get('/admin/patientlist/{patientlistId}/records', [AdminRecordController::class, 'showRecord'])->name('admin.showRecord');
-    Route::get('/admin/patientlist/{patientlistId}/record/add', [AdminRecordController::class, 'createRecord'])->name('admin.record.create');
-    Route::post('/admin/record/store', [AdminRecordController::class, 'storeRecord'])->name('admin.record.store');
-    Route::get('/admin/patientlist/{patientlistId}/record/update/{recordId}', [AdminRecordController::class, 'updateRecord'])->name('admin.updateRecord');
-    Route::put('/admin/patientlist/{patientlistId}/record//updated/{recordId}', [AdminRecordController::class, 'updatedRecord'])->name('admin.record.update');
-    Route::delete('/admin/records/{patientlist}/{record}', [AdminRecordController::class, 'deleteRecord'])->name('admin.deleteRecord');
-    Route::get('/admin/records/download/{record}', [AdminRecordController::class, 'downloadRecord'])->name('admin.downloadRecord');
+    Route::get('/admin/patientlist/{patientlistId}/records/add', [AdminRecordController::class, 'createRecord'])->name('admin.record.create');
+    Route::post('/admin/patientlist/{patientlistId}/records/store', [AdminRecordController::class, 'storeRecord'])->name('admin.record.store');
+    Route::get('/admin/patientlist/{patientlistId}/records/{recordId}/update', [AdminRecordController::class, 'updateRecord'])->name('admin.updateRecord');
+    Route::put('/admin/patientlist/{patientlistId}/records/{recordId}/updated', [AdminRecordController::class, 'updatedRecord'])->name('admin.record.update');
+    Route::delete('/admin/patientlist/{patientlistId}/records/{recordId}/delete', [AdminRecordController::class, 'deleteRecord'])->name('admin.deleteRecord');
+    Route::get('/admin/patientlist/{patientlistId}/records/{recordId}/download', [AdminRecordController::class, 'downloadRecord'])->name('admin.downloadRecord');
     Route::get('/admin/patientlist/{patientlistId}/records/{recordId}/count', [AdminRecordController::class, 'showRecords']);
-
-    Route::get('/admin/patientlist/{patientlistId}/record/note/add', [AdminRecordController::class, 'createNote'])->name('admin.note.create');
-    Route::post('/admin/note/store', [AdminRecordController::class, 'storeNote'])->name('admin.note.store');
-
-    Route::get('/admin/search', [AdminPatientlistController::class, 'search'])->name('admin.search');
+    
+    Route::get('/admin/patientlist/{patientlistId}/records/note/add', [AdminRecordController::class, 'createNote'])->name('admin.note.create');
+    Route::post('/admin/patientlist/{patientlistId}/records/note/store', [AdminRecordController::class, 'storeNote'])->name('admin.note.store');
+    
+    Route::get('/admin/patientlist/{patientlistId}/records/calendar/{Id}/details', [AdminRecordController::class, 'showRecords']);
 
     // messages
     Route::get('/admin/messages',[AdminMessagesController::class,'index'])->name('admin.messages');

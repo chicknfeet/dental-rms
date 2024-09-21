@@ -10,12 +10,11 @@ class PaymentInfo extends Model
 
     protected $fillable = ['users_id', 'patientname','description', 'amount', 'balance', 'date'];
 
-    public function patient()
-    {
+    public function patient(){
         return $this->belongsTo(User::class);
     }
-        public function user()
-    {
+    
+    public function user(){
         return $this->belongsTo(User::class, 'users_id');
     }
 }

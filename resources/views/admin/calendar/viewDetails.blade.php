@@ -24,20 +24,20 @@
                         <td class="px-6 py-3">{{ $calendar->appointmentdate }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-3">First Name</th>
-                        <td class="px-6 py-3">{{ $calendar->firstname }}</td>
+                        <th scope="col" class="px-6 py-3">Name</th>
+                        <td class="px-6 py-3">{{ $calendar->name }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-3">Last Name</th>
-                        <td class="px-6 py-3">{{ $calendar->lastname }}</td>
+                        <th scope="col" class="px-6 py-3">Gender</th>
+                        <td class="px-6 py-3">{{ $calendar->gender }}</td>
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-3">Birthday</th>
                         <td class="px-6 py-3">{{ $calendar->birthday }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-3">Gender</th>
-                        <td class="px-6 py-3">{{ $calendar->gender }}</td>
+                        <th scope="col" class="px-6 py-3">Age</th>
+                        <td class="px-6 py-3">{{ $calendar->age }}</td>
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-3">Address</th>
@@ -78,7 +78,7 @@
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-3">Name</th>
-                        <td class="px-6 py-3">{{ $calendar->name }}</td>
+                        <td class="px-6 py-3">{{ $calendar->relationname }}</td>
                             
                     </tr>
                     <tr>

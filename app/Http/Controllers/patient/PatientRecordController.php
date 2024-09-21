@@ -9,13 +9,13 @@ use App\Models\Record;
 class PatientRecordController extends Controller
 {
     
-    public function createRecord()
-    {
+    public function createRecord(){
+        
         return view('patient.record.create');
     }
 
-    public function storeRecord(Request $request)
-    {
+    public function storeRecord(Request $request){
+
         $request->validate([
             'file' => 'required|string'
         ]);
@@ -27,8 +27,8 @@ class PatientRecordController extends Controller
         return redirect()->route('patient.record.create')->with('success', 'Record added successfully!');
     }
 
-    public function showRecord($patientlistId, $recordId)
-    {
+    public function showRecord($patientlistId, $recordId){
+
         $patientlist = Patientlist::findOrFail($patientlistId);
         $records = $patientlist->records;
         $record = Record::findOrFail($recordId);
@@ -36,8 +36,8 @@ class PatientRecordController extends Controller
         return view('patient.patientlist.showRecord', compact('patientlist', 'records', 'record'));
     }
 
-    public function deleteRecord($patientlistId, $recordId)
-    {
+    public function deleteRecord($patientlistId, $recordId){
+
         $patientlist = Patientlist::findOrFail($patientlistId);
         $record = Record::findOrFail($recordId);
 
@@ -46,16 +46,16 @@ class PatientRecordController extends Controller
         return redirect()->route('patient.showRecord', $patientlist->id)->with('success', 'Record deleted successfully!');
     }
 
-    public function updateRecord($patientlistId, $recordId)
-    {
+    public function updateRecord($patientlistId, $recordId){
+
         $patientlist = Patientlist::findOrFail($patientlistId);
         $record = Record::findOrFail($recordId);
 
         return view('record.updateRecord', compact('patientlist', 'record'));
     }
 
-    public function updatedRecord(Request $request, $patientlistId, $recordId)
-    {
+    public function updatedRecord(Request $request, $patientlistId, $recordId){
+
         $request->validate([
             'file' => 'string',
         ]);
@@ -67,7 +67,6 @@ class PatientRecordController extends Controller
             'file' => $request->input('file'),
         ]);
 
-        return redirect()->route('patient.showRecord', $patientlist->id)
-            ->with('success', 'Record updated successfully!');
+        return redirect()->route('patient.showRecord', $patientlist->id)->with('success', 'Record updated successfully!');
     }
 }

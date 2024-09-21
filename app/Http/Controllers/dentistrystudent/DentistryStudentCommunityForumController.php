@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 
 class DentistryStudentCommunityForumController extends Controller
 {
-    public function store(Request $request)
-    {
+    public function store(Request $request){
+
         $request->validate([
             'topic' => 'required|string|max:255',
         ]);
@@ -23,55 +23,61 @@ class DentistryStudentCommunityForumController extends Controller
     }
 
     public function index(){
+
         $communityforums = CommunityForum::all();
         $communityforums = CommunityForum::paginate(10);
+
         return view('dentistrystudent.communityforum.communityforum', compact('communityforums'));
     }
 
     public function createCommunityforum(){
+
         return view('dentistrystudent.communityforum.create');
     }
 
     public function deleteCommunityforum($id){
+
         $communityforum = CommunityForum::findOrFail($id);
         $communityforum->delete();
 
-        return back()
-            ->with('success', 'Topic deleted successfully!');
+        return back()->with('success', 'Topic deleted successfully!');
     }
 
     
-    public function editCommunityforum($id)
-{
-    session(['edit_id' => $id]);
-    return redirect()->route('dentistrystudent.communityforum');
-}
+    public function editCommunityforum($id){
 
-// Update the community forum post
-public function updateCommunityforum(Request $request, $id)
-{
-    $request->validate([
-        'topic' => 'required|string|max:255',
-    ]);
+        session(['edit_id' => $id]);
+        
+        return redirect()->route('dentistrystudent.communityforum');
+    }
 
-    $communityforum = CommunityForum::findOrFail($id);
-    $communityforum->topic = $request->input('topic');
-    $communityforum->save();
+    // Update the community forum post
+    public function updateCommunityforum(Request $request, $id){
 
-    session()->forget('edit_id');
-    return redirect()->route('dentistrystudent.communityforum')->with('success', 'Topic updated successfully!');
-}
+        $request->validate([
+            'topic' => 'required|string|max:255',
+        ]);
 
-    public function showComment($communityforumId)
-    {
+        $communityforum = CommunityForum::findOrFail($id);
+        $communityforum->topic = $request->input('topic');
+        $communityforum->save();
+
+        session()->forget('edit_id');
+
+        return redirect()->route('dentistrystudent.communityforum')->with('success', 'Topic updated successfully!');
+    }
+
+    public function showComment($communityforumId){
+
         $communityforums = CommunityForum::findOrFail($communityforumId);
         $comments = $communityforums->comments;
 
         return view('dentistrystudent.communityforum.showComment', compact('communityforums', 'comments'));
     }
-    public function comment()
-    {
+    public function comment(){
+        
         $communityforums = CommunityForum::with('comments')->get();
+
         return view('dentistrystudent.communityforum', compact('communityforums'));
     }
 }

@@ -11,16 +11,16 @@ use App\Models\User;
 class AdminMessagesController extends Controller
 {
     
-    public function index()
-    {
+    public function index(){
+        
         $users = User::where('id', '!=', auth()->id())->get();
         $messages = Message::all();
 
         return view('admin.messages.messages', compact('users', 'messages'));
     }
 
-    public function storeMessage(Request $request)
-    {
+    public function storeMessage(Request $request){
+
         $request->validate([
             'recipient_id' => 'required|exists:users,id', // Ensure recipient exists in users table
             'message' => 'required|string',
@@ -33,12 +33,11 @@ class AdminMessagesController extends Controller
             'message' => $request->input('message'),
         ]);
 
-        return redirect()->route('admin.messages')
-            ->with('success', 'Message sent successfully!');
+        return redirect()->route('admin.messages')>with('success', 'Message sent successfully!');
     }
     
-    public function search(Request $request)
-    {
+    public function search(Request $request){
+
         $query = $request->input('query');
 
         // Retrieve users whose names match the search query
@@ -48,9 +47,7 @@ class AdminMessagesController extends Controller
 
         // Get all messages associated with the retrieved users
         $userIds = $users->pluck('id')->toArray();
-        $messages = Message::whereIn('sender_id', $userIds)
-                        ->orWhereIn('recipient_id', $userIds)
-                        ->get();
+        $messages = Message::whereIn('sender_id', $userIds)->orWhereIn('recipient_id', $userIds)->get();
 
         return view('admin.messages.messages', compact('users', 'messages'));
     }

@@ -27,32 +27,40 @@
         @csrf
         @method('PUT')
         <div class="mb-4">
-            <label for="firstname" class="font-semibold">First Name</label>
-            <input type="text" id="firstname" name="firstname" class="w-full rounded-lg focus:ring-2 shadow-sm" value="{{  old('firstname', $patient->firstname) }}" required>
+            <label for="users_id" class="font-semibold">Patient Account</label>
+            <select class="w-full rounded-lg focus:ring-2 shadow-sm" id="users_id" name="users_id" required>
+                @foreach($users as $user)
+                    @if($user->usertype !== 'admin' && $user->usertype !== 'dentistrystudent')
+                        <option value="{{ $user->id }}" {{ old('users_id', $patient->users_id) == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endif
+                @endforeach
+            </select>
         </div>
         
         <div class="mb-4">
-            <label for="lastname" class="font-semibold">Last Name</label>
-            <input type="text" id="lastname" name="lastname" class="w-full rounded-lg focus:ring-2 shadow-sm" value="{{  old('lastname', $patient->lastname) }}" required>
+            <label for="name" class="font-semibold">Name</label>
+            <input type="text" id="name" name="name" class="w-full rounded-lg focus:ring-2 shadow-sm" value="{{  old('name', $patient->name) }}" required>
         </div>
 
         <div class="mb-4">
-            <label for="birthday" class="font-semibold">Birthday:</label>
-            <input type="date" id="birthday" name="birthday" class="w-full rounded-lg focus:ring-2 shadow-sm" value="{{  old('birthday', $patient->birthday) }}" required>
-        </div>
-
-        <div class="mb-4">
-            <label for="age" class="font-semibold">Age:</label>
-            <input type="number" id="age" name="age" class="w-full rounded-lg focus:ring-2 shadow-sm" value="{{  old('age', $patient->age) }}" required>
-        </div>
-
-        <div class="mb-4">
-            <label for="gender" class="font-semibold">Gender:</label>
+            <label for="gender" class="font-semibold">Gender</label>
             <select id="gender" name="gender" class="w-full rounded-lg focus:ring-2 shadow-sm" required>
                 <option value="" disabled selected>Select your Gender</option>
                 <option value="Male" {{ old('gender', $patient->gender) == 'Male' ? 'selected' : '' }}>Male</option>
                 <option value="Female" {{ old('gender', $patient->gender) == 'Female' ? 'selected' : '' }}>Female</option>
             </select>
+        </div>
+
+        <div class="mb-4">
+            <label for="birthday" class="font-semibold">Birthday</label>
+            <input type="date" id="birthday" name="birthday" class="w-full rounded-lg focus:ring-2 shadow-sm" value="{{  old('birthday', $patient->birthday) }}" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="age" class="font-semibold">Age</label>
+            <input type="number" id="age" name="age" class="w-full rounded-lg focus:ring-2 shadow-sm" value="{{  old('age', $patient->age) }}" required>
         </div>
 
         <div  class="mb-4">

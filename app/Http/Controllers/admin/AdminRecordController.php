@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
+use App\Models\Calendar;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use App\Models\Patientlist;
@@ -10,8 +11,29 @@ use App\Models\Record;
 class AdminRecordController extends Controller
 {
     
-    public function createRecord($patientlistId)
-    {
+    public function showRecord($patientlistId){
+
+        $patientlist = Patientlist::findOrFail($patientlistId);
+        
+        // Assuming records are associated with the patient list through a one-to-many relationship
+        $records = Record::where('patientlist_id', $patientlistId)->get();
+
+        $notes = Note::where('patientlist_id', $patientlistId)->get();
+
+        $count = $records->count();
+
+        $userId = $patientlist->users_id; 
+        
+        $calendars = Calendar::where('user_id', $userId)
+                            ->where('appointmentdate', '>=', now()->toDateString())
+                            ->orderBy('appointmentdate')
+                            ->get();
+        
+        return view('admin.patientlist.showRecord', compact('patientlist', 'records', 'notes', 'count', 'calendars'));
+    }
+
+    public function createRecord($patientlistId){
+
         // Find the patient list by ID
         $patientlist = Patientlist::findOrFail($patientlistId);
     
@@ -19,15 +41,15 @@ class AdminRecordController extends Controller
         return view('admin.patientlist.showRecord', compact('patientlist'));
     }
     
-    public function storeRecord(Request $request)
-    {
+    public function storeRecord(Request $request){
+
         $request->validate([
             'file' => 'required|file',
             'patientlist_id' => 'required|exists:patientlists,id'
         ]);
 
         $file = $request->file('file');
-        if ($file) {
+        if($file){
             // Get the original file name
             $originalFileName = $file->getClientOriginalName();
             
@@ -46,37 +68,21 @@ class AdminRecordController extends Controller
 
             return redirect()->route('admin.showRecord', ['patientlistId' => $request->input('patientlist_id')])
                             ->with('success', 'Record added successfully!');
-        } else {
+        }else{
             return redirect()->back()->with('error', 'No file uploaded.');
         }
     }
 
+    public function deleteRecord($patientlistId, $recordId){
 
-    public function deleteRecord($patientlistId, $recordId)
-    {
         $record = Record::findOrFail($recordId);
         $record->delete();
 
-        return redirect()->route('admin.showRecord', $patientlistId)
-                        ->with('success', 'Record deleted successfully!');
+        return redirect()->route('admin.showRecord', $patientlistId)->with('success', 'Record deleted successfully!');
     }
 
-    public function showRecord($patientlistId)
-    {
-        $patientlist = Patientlist::findOrFail($patientlistId);
-        
-        // Assuming records are associated with the patient list through a one-to-many relationship
-        $records = Record::where('patientlist_id', $patientlistId)->get();
+    public function updateRecord($patientlistId, $recordId){
 
-        $notes = Note::where('patientlist_id', $patientlistId)->get();
-
-        $count = $records->count();
-        
-        return view('admin.patientlist.showRecord', compact('patientlist', 'records', 'notes') , ['count' => $count]);
-    }
-
-    public function updateRecord($patientlistId, $recordId)
-    {
         $patientlist = Patientlist::findOrFail($patientlistId);
         $record = Record::findOrFail($recordId);
 
@@ -84,8 +90,8 @@ class AdminRecordController extends Controller
     }
 
 
-    public function updatedRecord(Request $request, $patientlistId, $recordId)
-    {
+    public function updatedRecord(Request $request, $patientlistId, $recordId){
+
         $request->validate([
             'file' => 'nullable|file',
             'patientlist_id' => 'required|exists:patientlists,id'
@@ -93,7 +99,8 @@ class AdminRecordController extends Controller
 
         $record = Record::findOrFail($recordId);
 
-        if ($request->hasFile('file')) {
+        if($request->hasFile('file')){
+            
             $file = $request->file('file');
 
             // Get the original file name
@@ -113,31 +120,33 @@ class AdminRecordController extends Controller
         $record->patientlist_id = $patientlistId;
         $record->save();
 
-        return redirect()->route('admin.showRecord', $patientlistId)
-                        ->with('success', 'Record updated successfully!');
+        return redirect()->route('admin.showRecord', $patientlistId)->with('success', 'Record updated successfully!');
     }
 
-    public function downloadRecord($recordId)
-    {
+    public function downloadRecord($recordId){
+
         $record = Record::findOrFail($recordId);
+
         return response()->download(storage_path('app/' . $record->file));
     }
 
-    public function countRecords()
-    {
+    public function countRecords(){
+
         $count = Record::count();
+
         return view('admin.patientlist.showRecord', ['count' => $count]);
     }
 
 
     public function createNote($patientlistId){
+
         $patientlist = Patientlist::findOrFail($patientlistId);
 
         return view('admin.patientlist.showRecord', compact('patientlist'));
     }
 
-    public function storeNote(Request $request)
-    {
+    public function storeNote(Request $request){
+
         $request->validate([
             'note' => 'required|string|max:255',
             'patientlist_id' => 'required|exists:patientlists,id'

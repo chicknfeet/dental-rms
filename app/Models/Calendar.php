@@ -9,12 +9,13 @@ class Calendar extends Model
     protected $table = 'calendars';
 
     protected $fillable = [
+        'user_id',
         'appointmentdate',
         'appointmenttime',
-        'firstname',
-        'lastname',
-        'birthday',
+        'name',
         'gender',
+        'birthday',
+        'age',
         'address',
         'phone',
         'email',
@@ -22,9 +23,12 @@ class Calendar extends Model
         'emergencycontactname',
         'emergencycontactrelation',
         'emergencycontactphone',
-        'name',
+        'relationname',
         'relation',
     ];
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
 

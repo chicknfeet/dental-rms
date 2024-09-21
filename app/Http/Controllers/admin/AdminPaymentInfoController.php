@@ -10,18 +10,23 @@ use Illuminate\Support\Facades\Auth;
 class AdminPaymentInfoController extends Controller
 {
     public function index(){   
+
         $paymentinfo = PaymentInfo::all();
         $paymentinfo = PaymentInfo::paginate(10);
         $users = User::all();
+
         return view('admin.paymentinfo.paymentinfo', compact('paymentinfo', 'users'));
     }
 
     public function createPayment(){
+
         $users = User::all();
+
         return view('admin.paymentinfo.create', compact('users'));
     }
 
     public function storePayment(Request $request){
+
         $request->validate([ 
             'users_id' => 'required|exists:users,id',
             'patientname' => 'required|string',
@@ -40,22 +45,23 @@ class AdminPaymentInfoController extends Controller
             'date' => $request->input('date'),
         ]);
 
-        return redirect()->route('admin.paymentinfo')
-            ->with('success', 'Payment added successfully!');
+        return redirect()->route('admin.paymentinfo')->with('success', 'Payment added successfully!');
     }
 
     public function deletePayment($id){
+
         $payment = PaymentInfo::findOrFail($id);
         $payment->delete();
 
-        return back()
-            ->with('success', 'Payment deleted successfully!');
+        return back()->with('success', 'Payment deleted successfully!');
     }
 
    
     public function updatePayment($id){
+
         $payment = PaymentInfo::findOrFail($id);
         $users = User::all();
+
         return view('admin.paymentinfo.updatePayment', compact('payment', 'users'));
     }
 
@@ -81,12 +87,11 @@ class AdminPaymentInfoController extends Controller
             'date' => $request->input('date'),
         ]);
 
-        return redirect()->route('admin.paymentinfo')
-            ->with('success', 'Payment updated successfully!');
+        return redirect()->route('admin.paymentinfo')->with('success', 'Payment updated successfully!');
     }
 
-    public function search(Request $request)
-    {
+    public function search(Request $request){
+        
         $query = $request->input('query');
         $paymentinfo = PaymentInfo::Where('patientname', 'like', "%$query%")
                                   ->orWhere('description', 'like', "%$query%")

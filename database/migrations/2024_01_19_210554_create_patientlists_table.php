@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('patientlists', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
+            $table->unsignedBigInteger('users_id');
+            $table->string('name');
             $table->string('gender');
             $table->date('birthday');
             $table->integer('age');
@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('address');
             $table->string('email');
             $table->timestamps();
+
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

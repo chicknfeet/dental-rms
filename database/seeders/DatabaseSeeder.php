@@ -40,22 +40,22 @@ class DatabaseSeeder extends Seeder
        
 
         $patients = [
-            ['firstname' => 'John',
-            'lastname' => 'Smith',
-            'birthday' => '1999-1-1',
-            'age' => 25,
-            'gender' => 'Male',
-            'phone' => '09123456789',
-            'address' => '123 Maple Street',
-            'email' => 'johnsmith@example.com'],
-            ['firstname' => 'Emily',
-            'lastname' => 'Johnson',
-            'birthday' => '2003-2-14',
-            'age' => 21,
-            'gender' => 'Female',
-            'phone' => '09123456789',
-            'address' => '456 El Street',
-            'email' => 'emilyjohnson@example.com'],
+            // ['firstname' => 'John',
+            // 'lastname' => 'Smith',
+            // 'birthday' => '1999-1-1',
+            // 'age' => 25,
+            // 'gender' => 'Male',
+            // 'phone' => '09123456789',
+            // 'address' => '123 Maple Street',
+            // 'email' => 'johnsmith@example.com'],
+            // ['firstname' => 'Emily',
+            // 'lastname' => 'Johnson',
+            // 'birthday' => '2003-2-14',
+            // 'age' => 21,
+            // 'gender' => 'Female',
+            // 'phone' => '09123456789',
+            // 'address' => '456 El Street',
+            // 'email' => 'emilyjohnson@example.com'],
         ];
 
         foreach ($patients as $patient) {

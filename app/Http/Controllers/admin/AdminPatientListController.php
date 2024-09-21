@@ -3,24 +3,32 @@
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Patientlist;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminPatientListController extends Controller
 {
     public function index(){
+
         $patientlist = Patientlist::all();
         $patientlist = Patientlist::paginate(10);
-        return view('admin.patientlist.patientlist', compact('patientlist'));
+        $users = User::all();
+
+        return view('admin.patientlist.patientlist', compact('patientlist', 'users'));
     }
 
     public function createPatient(){
-        return view('admin.patientlist.create');
+
+        $users = User::all();
+
+        return view('admin.patientlist.create', compact('users'));
     }
 
     public function storePatient(Request $request){
+
         $request->validate([
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
+            'users_id' => 'required|exists:users,id',
+            'name' => 'required|string',
             'birthday' => 'required|date',
             'age' => 'required|integer',
             'gender' => 'required|string',
@@ -30,8 +38,8 @@ class AdminPatientListController extends Controller
         ]);
 
         Patientlist::create([
-            'firstname' => $request->input('firstname'),
-            'lastname' => $request->input('lastname'),
+            'users_id' => $request->input('users_id'),
+            'name' => $request->input('name'),
             'birthday' => $request->input('birthday'),
             'age' => $request->input('age'),
             'gender' => $request->input('gender'),
@@ -40,21 +48,23 @@ class AdminPatientListController extends Controller
             'email' => $request->input('email'),
         ]);
 
-        return redirect()->route('admin.patientlist')
-            ->with('success', 'Patient added successfully!');
+        return redirect()->route('admin.patientlist')->with('success', 'Patient added successfully!');
     }
 
     public function deletePatient($id){
+
         $patient = Patientlist::findOrFail($id);
         $patient->delete();
 
-        return back()
-            ->with('success', 'Patient deleted successfully!');
+        return back()->with('success', 'Patient deleted successfully!');
     }
 
     public function updatePatient($id){
+
         $patient = Patientlist::findOrFail($id);
-        return view('admin.patientlist.updatePatient')->with('patient', $patient);
+        $users = User::all();
+
+        return view('admin.patientlist.updatePatient', compact('patient', 'users'));
     }
 
     public function updatedPatient(Request $request, $id){
@@ -62,8 +72,8 @@ class AdminPatientListController extends Controller
         $patient = Patientlist::findOrFail($id);
         
         $request->validate([
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
+            'users_id' => 'required|exists:users,id',
+            'name' => 'required|string',
             'birthday' => 'required|date',
             'age' => 'required|integer',
             'gender' => 'required|string',
@@ -73,8 +83,8 @@ class AdminPatientListController extends Controller
         ]);
 
         $patient->update([
-            'firstname' => $request->input('firstname'),
-            'lastname' => $request->input('lastname'),
+            'users_id' => $request->input('users_id'),
+            'name' => $request->input('name'),
             'birthday' => $request->input('birthday'),
             'age' => $request->input('age'),
             'gender' => $request->input('gender'),
@@ -83,16 +93,14 @@ class AdminPatientListController extends Controller
             'email' => $request->input('email'),
         ]);
 
-        return redirect()->route('admin.patientlist')
-            ->with('success', 'Patient updated successfully!');
+        return redirect()->route('admin.patientlist')->with('success', 'Patient updated successfully!');
     }
 
-    public function search(Request $request)
-    {
+    public function search(Request $request){
+        
         $query = $request->input('query');
 
-        $patientlist = Patientlist::where('firstname', 'like', "%$query%")
-                                ->orWhere('lastname', 'like', "%$query%")
+        $patientlist = Patientlist::where('name', 'like', "%$query%")
                                 ->orWhere('birthday', 'like', "%$query%")
                                 ->orWhere('age', 'like', "%$query%")
                                 ->orWhere('gender', 'like', "%$query%")

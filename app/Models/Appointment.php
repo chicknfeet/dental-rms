@@ -9,12 +9,13 @@ class Appointment extends Model
     protected $table = 'appointments';
 
     protected $fillable = [
+        'user_id',
         'appointmentdate',
         'appointmenttime',
-        'firstname',
-        'lastname',
-        'birthday',
+        'name',
         'gender',
+        'birthday',
+        'age',
         'address',
         'phone',
         'email',
@@ -22,9 +23,13 @@ class Appointment extends Model
         'emergencycontactname',
         'emergencycontactrelation',
         'emergencycontactphone',
-        'name',
+        'relationname',
         'relation',
     ];
 
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
 

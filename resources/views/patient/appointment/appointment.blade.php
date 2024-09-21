@@ -31,7 +31,8 @@
     <div class="p-6">
         <form method="post" action="{{ route('patient.calendar.store') }}" class="grid grid-cols-2 gap-6 bg-white rounded-lg shadow-md p-10">
             @csrf
-            
+            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+
             <div class="grid grid-cols-1 gap-4">
                 <div>
                     <h3 class="text-3xl font-bold">Patient Appointment</h3>
@@ -54,29 +55,30 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="firstname" class="font-semibold">First Name</label>
-                        <input type="text" class="rounded-lg focus:ring-2 shadow-sm w-full" id="firstname" name="firstname" required>
+                        <label for="name" class="font-semibold">Name</label>
+                        <input type="text" class="rounded-lg focus:ring-2 shadow-sm w-full" id="name" name="name" required>
                     </div>
+                    <div>
 
-                    <div>
-                        <label for="lastname" class="font-semibold">Last Name</label>
-                        <input type="text" class="rounded-lg focus:ring-2 shadow-sm w-full" id="lastname" name="lastname" required>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="birthday" class="font-semibold">Birthday:</label>
-                        <input type="date" class="rounded-lg focus:ring-2 shadow-sm w-full" id="birthday" name="birthday" required>
-                    </div>
-                    
-                    <div>
                         <label for="gender" class="font-semibold">Gender</label>
                         <select id="gender" name="gender" class="rounded-lg focus:ring-2 shadow-sm w-full" required>
                             <option value="" disabled selected>Select your Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="birthday" class="font-semibold">Birthday</label>
+                        <input type="date" class="rounded-lg focus:ring-2 shadow-sm w-full" id="birthday" name="birthday" required>
+                    </div>
+                    
+                    
+                    <div>
+                        <label for="age" class="font-semibold">Age</label>
+                        <input type="text" class="rounded-lg focus:ring-2 shadow-sm w-full" id="age" name="age" required>
                     </div>
                 </div>
 
@@ -143,8 +145,8 @@
                         
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label for="name" class="font-semibold">Name <span class="text-gray-500">(Optional)</span></label>
-                            <input type="text" class="rounded-lg focus:ring-2 shadow-sm w-full" id="name" name="name">
+                            <label for="relationname" class="font-semibold">Name <span class="text-gray-500">(Optional)</span></label>
+                            <input type="text" class="rounded-lg focus:ring-2 shadow-sm w-full" id="relationname" name="relationname">
                         </div>
 
                         <div>

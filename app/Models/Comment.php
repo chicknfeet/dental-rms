@@ -11,14 +11,14 @@ class Comment extends Model
     protected $fillable = [
         'comment',
     ];
+
     public $timestamps = true;
     
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo(User::class);
     }
-    public function communityForum()
-    {
+
+    public function communityForum(){
         return $this->belongsTo(CommunityForum::class, 'communityforum_id');
     }
 

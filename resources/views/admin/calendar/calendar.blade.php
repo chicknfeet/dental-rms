@@ -76,7 +76,7 @@
                                         @if (date('j', strtotime($calendar->appointmentdate)) == $dayOfMonth && date('G', strtotime($calendar->appointmenttime)) == $hour)
                                             <div class="appointment bg-gray-200 p-2 mt-1 rounded text-center w-full box-border">
                                                 <strong>{{ $calendar->time }}</strong><br>
-                                                {{ $calendar->firstname }} {{ $calendar->lastname }}
+                                                {{ $calendar->name }}
                                                 <div class="appointment-buttons mt-5 flex justify-between">
                                                     <a href="{{ route('admin.updateCalendar', $calendar->id) }}" class="py-1 px-2 rounded bg-white hover:bg-gray-300 text-gray-800" title="Update"><i class="fa-solid fa-pen"></i></a>
                                                     <a href="{{ route('admin.viewDetails', $calendar->id) }}" class="py-1 px-2 rounded bg-white hover:bg-gray-300 text-gray-800" title="View"><i class="fa-solid fa-eye"></i></a>

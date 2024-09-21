@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class DentistryStudentCommentController extends Controller
 {
     
-    public function addComment(Request $request, $communityforumId)
-    {
+    public function addComment(Request $request, $communityforumId){
+        
         $request->validate([
             'comment' => 'required|string|max:255',
         ]);
@@ -25,15 +25,16 @@ class DentistryStudentCommentController extends Controller
         return redirect()->route('dentistrystudent.communityforum')->with('success', 'Comment added successfully.');
     }
     
-    public function editComment($id)
-    {
+    public function editComment($id){
+
         $comment = Comment::findOrFail($id);
         session()->flash('edit_comment_id', $id);
+
         return redirect()->route('dentistrystudent.communityforum');
     }
     
-    public function updateComment(Request $request, $id)
-    {
+    public function updateComment(Request $request, $id){
+
         $request->validate([
             'comment' => 'required|string|max:255',
         ]);
@@ -45,8 +46,8 @@ class DentistryStudentCommentController extends Controller
         return redirect()->route('dentistrystudent.communityforum')->with('success', 'Comment updated successfully.');
     }
     
-    public function deleteComment($id)
-    {
+    public function deleteComment($id){
+
         $comment = Comment::findOrFail($id);
         $comment->delete();
     
