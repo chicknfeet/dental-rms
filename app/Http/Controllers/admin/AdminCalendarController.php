@@ -65,6 +65,18 @@ class AdminCalendarController extends Controller
 
         return redirect()->route('appointment')->with('success', 'Appointment added successfully!');
     }
+    
+    public function approve($id){
+
+        // Find the appointment
+        $calendar = Calendar::findOrFail($id);
+
+        // Update the appointment status
+        $calendar->approved = true;
+        $calendar->save();
+
+        return redirect()->back()->with('success', 'Appointment approved!');
+    }
 
     public function deleteCalendar($id){
 

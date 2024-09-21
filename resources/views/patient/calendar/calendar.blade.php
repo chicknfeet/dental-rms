@@ -77,13 +77,8 @@
                                             <div class="appointment bg-gray-200 p-2 mt-1 rounded text-center w-full box-border">
                                                 <strong>{{ $calendar->time }}</strong><br>
                                                 {{ $calendar->name }}
-                                                <div class="appointment-buttons mt-5 flex justify-between">
-                                                    <a href="{{ route('admin.updateCalendar', $calendar->id) }}" class="py-1 px-2 rounded bg-white hover:bg-gray-300 text-gray-800" title="Update"><i class="fa-solid fa-pen"></i></a>
-                                                    <form method="post" action="{{ route('admin.deleteCalendar', $calendar->id) }}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="py-1 px-2 rounded bg-white text-red-800 hover:bg-red-200" title="Delete" onclick="return confirm('Are you sure you want to delete this appointment?')"><i class="fa-solid fa-trash"></i></button>
-                                                    </form>
+                                                <div class="appointment bg-gray-200 p-2 mt-1 rounded text-center w-full box-border">
+                                                    <strong>Status:</strong> {{ $calendar->approved ? 'Approved' : 'Pending Approval' }}
                                                 </div>
                                             </div>
                                             @php $hasAppointment = true; @endphp

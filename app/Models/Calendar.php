@@ -25,6 +25,7 @@ class Calendar extends Model
         'emergencycontactphone',
         'relationname',
         'relation',
+        'approved',
     ];
 
     public function user(){

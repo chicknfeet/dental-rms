@@ -78,6 +78,14 @@
                                                 <strong>{{ $calendar->time }}</strong><br>
                                                 {{ $calendar->name }}
                                                 <div class="appointment-buttons mt-5 flex justify-between">
+                                                    @if (!$calendar->approved)
+                                                        <form method="post" action="{{ route('admin.approveCalendar', $calendar->id) }}">
+                                                            @csrf
+                                                            <button type="submit" class="py-1 px-2 rounded bg-green-500 text-white" title="Approve">Approve</button>
+                                                        </form>
+                                                    @else
+                                                        <span class="text-green-500">Approved</span>
+                                                    @endif
                                                     <a href="{{ route('admin.updateCalendar', $calendar->id) }}" class="py-1 px-2 rounded bg-white hover:bg-gray-300 text-gray-800" title="Update"><i class="fa-solid fa-pen"></i></a>
                                                     <a href="{{ route('admin.viewDetails', $calendar->id) }}" class="py-1 px-2 rounded bg-white hover:bg-gray-300 text-gray-800" title="View"><i class="fa-solid fa-eye"></i></a>
                                                     <form method="post" action="{{ route('admin.deleteCalendar', $calendar->id) }}">

@@ -25,8 +25,8 @@ class Appointment extends Model
         'emergencycontactphone',
         'relationname',
         'relation',
+        'approved',
     ];
-
 
     public function user(){
         return $this->belongsTo(User::class);

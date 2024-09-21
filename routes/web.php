@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin']], function () {
 
     // calendar
     Route::get('/admin/calendar',[AdminCalendarController::class,'index'])->name('admin.calendar');
+    Route::post('/calendar/approve/{id}', [AdminCalendarController::class, 'approve'])->name('admin.approveCalendar');
     Route::get('/admin/calendar/appointment/{appointmentId}/update', [AdminCalendarController::class, 'updateCalendar'])->name('admin.updateCalendar');
     Route::put('/admin/calendar/appointment/{appointmentId}/updated', [AdminCalendarController::class, 'updatedCalendar'])->name('admin.updatedCalendar');
     Route::delete('/admin/calendar/appointment/{appointmentId}/delete', [AdminCalendarController::class, 'deleteCalendar'])->name('admin.deleteCalendar');
