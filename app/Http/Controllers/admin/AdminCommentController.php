@@ -9,7 +9,29 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminCommentController extends Controller
 {
+    protected function filterBadWords($text){
+        
+        $badWords = [
+            'Stupid', 'Fuck You', 'Tangina mo', 'Bobo', 'bobo','Vovo', 'vovo', 'obob', '0b0b', '8080', 'b0b0', 'B0B0',
+            'tanga', 't@nga', 'pakyu', 'FU', 'fuckyou', 'boboh', 'tarantado', 'gago', 'ogag', 'siraulo', 'Tanga', 'Pakyu',
+            'Fuckyou,', 'Tarandato', 'Gago', 'Siraulo', 'hudas', 'putangina', 'lintik', 'ulol', 'buwisit', 'leche','ungas',
+            'punyeta', 'hinayupak', 'pucha', 'yawa', 'pisteng yawa', 'pakshet', 'Hudas', 'Putangina', 'Lintik', 'Ulol', 'Buwisit',
+            'Leche', 'Ungas', 'Punyeta', 'Hinayupak', 'Pucha', 'Yawa', 'Pisteng yawa', 'Pisteng Yawa', 'Pakshet', 'Hudas', 
+        ];
     
+        // Create a regex pattern
+        $pattern = '/\b(' . implode('|', array_map('preg_quote', $badWords)) . ')\b/i';
+        
+        // Replace matches with ***
+        return preg_replace_callback($pattern, function ($matches) {
+            // Count the letters excluding spaces
+            $cleanedMatch = preg_replace('/\s+/', '', $matches[0]);
+            // Create the asterisk replacement maintaining the spaces
+            $asterisks = str_repeat('*', strlen($cleanedMatch));
+            return preg_replace('/\S/', '*', $matches[0]); // Replace non-space characters with asterisks
+        }, $text);
+    }
+
     public function addComment(Request $request, $communityforumId){
 
         $request->validate([
@@ -19,7 +41,7 @@ class AdminCommentController extends Controller
         $comment = new Comment();
         $comment->user_id = Auth::id();
         $comment->communityforum_id = $communityforumId;
-        $comment->comment = $request->comment;
+        $comment->comment = $this->filterBadWords($request->comment);
         $comment->save();
     
         return redirect()->route('admin.communityforum')->with('success', 'Comment added successfully.');
@@ -40,7 +62,7 @@ class AdminCommentController extends Controller
         ]);
     
         $comment = Comment::findOrFail($id);
-        $comment->comment = $request->comment;
+        $comment->comment = $this->filterBadWords($request->comment);
         $comment->save();
     
         return redirect()->route('admin.communityforum')->with('success', 'Comment updated successfully.');
