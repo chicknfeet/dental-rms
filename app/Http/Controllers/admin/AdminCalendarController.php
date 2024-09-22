@@ -5,7 +5,10 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Calendar;
 use App\Models\User;
+use App\Mail\AppointmentApproved;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminCalendarController extends Controller
 {
@@ -66,16 +69,40 @@ class AdminCalendarController extends Controller
         return redirect()->route('appointment')->with('success', 'Appointment added successfully!');
     }
     
-    public function approve($id){
-
+    public function approve($id) {
         // Find the appointment
         $calendar = Calendar::findOrFail($id);
-
+    
         // Update the appointment status
         $calendar->approved = true;
         $calendar->save();
-
-        return redirect()->back()->with('success', 'Appointment approved!');
+    
+        $user = $calendar->user; // Assuming the Calendar model has a 'user' relationship
+    
+        if ($user) {
+            $patientEmail = $user->email;
+    
+            // Log the patient email to ensure it's correct
+            Log::info("Patient email: " . $patientEmail);
+    
+            try {
+                // Log before sending email
+                Log::info("Attempting to send email to: " . $patientEmail);
+                
+                // Send the approval email to the patient
+                Mail::to($patientEmail)->send(new AppointmentApproved($calendar));
+                
+                // Log success
+                Log::info("Email sent successfully to: " . $patientEmail);
+            } catch (\Exception $e) {
+                // Log error details
+                Log::error("Failed to send email: " . $e->getMessage());
+            }
+        } else {
+            Log::error("No user found for calendar ID: " . $id);
+        }
+    
+        return redirect()->back()->with('success', 'Appointment approved! and Email sent!');
     }
 
     public function deleteCalendar($id){
