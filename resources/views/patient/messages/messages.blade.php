@@ -1,11 +1,11 @@
 <x-app-layout>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/messages.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <div class="chat-container">
@@ -13,9 +13,9 @@
             <div>
                 <h1><i class="fa-regular fa-comment-dots"></i> Messages</h1>
             </div>
-            <form action="{{ route('patient.messages.search') }}" method="GET">
+            <form id="search-form" action="{{ route('patient.messages.search') }}" method="GET">
                 <div class="relative w-full">
-                    <input type="text" name="query" placeholder="Search" class="w-full h-10 px-3 rounded-full focus:ring-2 border border-gray-300 focus:outline-none focus:border-blue-500">
+                    <input type="text" name="query" id="search-input" placeholder="Search" class="w-full h-10 px-3 rounded-full focus:ring-2 border border-gray-300 focus:outline-none focus:border-blue-500">
                     <button type="submit" class="absolute top-0 end-0 p-2.5 pr-3 text-sm font-medium h-full text-white bg-blue-700 rounded-e-full border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <span class="sr-only">Search</span>
@@ -23,28 +23,30 @@
                 </div>
             </form>
             <br>
-            @foreach ($users as $user)
-                @if ($user->usertype == 'admin')
-                    <div class="user-item" data-username="{{ $user->name }}" data-userid="{{ $user->id }}">
-                        <div>
-                            {{ $user->name }}
-                            <div class="recent-message" id="recent-{{ $user->name }}"></div>
+            <div id="user-list-container">
+                @foreach ($users as $user)
+                    @if ($user->usertype !== 'dentistrystudent' && $user->usertype !== 'patient')
+                        <div class="user-item" data-username="{{ $user->name }}" data-userid="{{ $user->id }}">
+                            <div>
+                                {{ $user->name }}
+                                <div class="recent-message" id="recent-{{ $user->name }}"></div>
+                            </div>
                         </div>
-                    </div>
-                @endif
-            @endforeach
+                    @endif
+                @endforeach
+            </div>
         </div>
         <div class="chat-box" id="chat-box">
             @foreach ($users as $user)
-                @if ($user->usertype == 'admin')
-                    <div id="chat-panel-{{ $user->name }}" class="chat-messages">
+                @if ($user->usertype !== 'dentistrystudent' && $user->usertype !== 'patient')
+                    <div id="chat-panel-{{ $user->name }}" class="chat-messages" style="display: none;">
                         <!-- Chat messages for {{ $user->name }} -->
                         @foreach ($messages as $message)
                             @if ($message->sender_id == auth()->id() && $message->recipient_id == $user->id)
                                 <div class="admin">
                                     <p>You</p>
                                     <p>{{ $message->message }}</p>
-                                    </div>
+                                </div>
                             @elseif ($message->sender_id == $user->id && $message->recipient_id == auth()->id())
                                 <div class="others">
                                     <p>{{ $user->name }}</p>
@@ -56,7 +58,7 @@
                 @endif
             @endforeach
 
-            <form method="post" action="{{ route('patient.messages.store') }}" class="chat-input">
+            <form method="post" action="{{ route('patient.messages.store') }}" class="chat-input" id="chat-form">
                 @csrf
                 <input type="hidden" id="recipient_id" name="recipient_id" value="">
                 <input placeholder="Type your message..." rows="3" type="text" class="form-control" id="message" name="message" required>
@@ -65,19 +67,79 @@
         </div>
     </div>
 
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let selectedUser = localStorage.getItem('selectedUser');
+            let users = @json($users);
+            let messages = @json($messages);
+            let currentUserId = {{ auth()->id() }};
 
-            // Add click event listeners to user items
-            document.querySelectorAll('.user-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    selectUser(item.dataset.username, item.dataset.userid);
+            function sortUsersByLastMessage() {
+                users.sort((a, b) => {
+                    let lastMessageA = messages.filter(m => 
+                        (m.sender_id === a.id && m.recipient_id === currentUserId) || 
+                        (m.sender_id === currentUserId && m.recipient_id === a.id)
+                    ).pop();
+                    let lastMessageB = messages.filter(m => 
+                        (m.sender_id === b.id && m.recipient_id === currentUserId) || 
+                        (m.sender_id === currentUserId && m.recipient_id === b.id)
+                    ).pop();
+
+                    if (!lastMessageA && !lastMessageB) return 0;
+                    if (!lastMessageA) return 1;
+                    if (!lastMessageB) return -1;
+                    return new Date(lastMessageB.created_at) - new Date(lastMessageA.created_at);
                 });
-            });
+            }
 
-            // Select the default user or the last selected user
+            function populateUserList() {
+                let userListContainer = document.getElementById('user-list-container');
+                userListContainer.innerHTML = '';
+
+                sortUsersByLastMessage();
+
+                users.forEach(user => {
+                    if (user.usertype !== 'dentistrystudent' && user.usertype !== 'patient') {
+                        let userMessages = messages.filter(m => 
+                            (m.sender_id === user.id && m.recipient_id === currentUserId) || 
+                            (m.sender_id === currentUserId && m.recipient_id === user.id)
+                        );
+
+                        let userItem = document.createElement('div');
+                        userItem.className = 'user-item';
+                        userItem.dataset.username = user.name;
+                        userItem.dataset.userid = user.id;
+                        userItem.innerHTML = `
+                            <div>
+                                ${user.name}
+                                <div class="recent-message" id="recent-${user.name}"></div>
+                            </div>
+                        `;
+                        userItem.addEventListener('click', function() {
+                            selectUser(user.name, user.id);
+                        });
+                        userListContainer.appendChild(userItem);
+
+                        if (userMessages.length > 0) {
+                            let lastMessage = userMessages[userMessages.length - 1];
+                            updateRecentMessage(user.name, lastMessage);
+                        }
+                    }
+                });
+            }
+
+
+            function updateRecentMessage(username, message) {
+                let recentMessageElement = document.getElementById(`recent-${username}`);
+                if (recentMessageElement) {
+                    let lastMessagePreview = message.message.substring(0, 30) + (message.message.length > 30 ? '...' : '');
+                    let lastMessageSender = message.sender_id === currentUserId ? 'You' : username;
+                    recentMessageElement.innerHTML = `<span class="last-sender">${lastMessageSender}:</span> ${lastMessagePreview}`;
+                }
+            }
+
+            populateUserList();
+
             if (selectedUser) {
                 let userItem = document.querySelector(`.user-item[data-username="${selectedUser}"]`);
                 if (userItem) {
@@ -90,11 +152,37 @@
                 }
             }
 
+            // Search functionality
+            document.getElementById('search-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                let searchQuery = document.getElementById('search-input').value.toLowerCase();
+                let userItems = document.querySelectorAll('.user-item');
+                userItems.forEach(item => {
+                    let username = item.dataset.username.toLowerCase();
+                    if (username.includes(searchQuery)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+
             // Handle form submission
             document.getElementById('chat-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 let form = this;
                 let formData = new FormData(form);
+
+                // Immediately add the message to the chat
+                let newMessage = {
+                    sender_id: currentUserId,
+                    recipient_id: formData.get('recipient_id'),
+                    message: formData.get('message'),
+                    created_at: new Date().toISOString()
+                };
+                addMessageToChat(newMessage);
+                updateChatList(newMessage);
+                messages.push(newMessage);
 
                 fetch(form.action, {
                     method: 'POST',
@@ -107,17 +195,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        addMessageToChat({
-                            sender_id: '{{ auth()->id() }}',
-                            sender_name: 'You',
-                            message: formData.get('message'),
-                            recipient_id: formData.get('recipient_id')
-                        });
-                        updateChatList({
-                            sender_id: formData.get('recipient_id'),
-                            message: formData.get('message')
-                        });
-                        form.reset();
+                        console.log('Message sent successfully');
                     } else {
                         console.error('Error sending message:', data.error);
                     }
@@ -125,6 +203,8 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+
+                form.reset();
             });
         });
 
@@ -137,23 +217,43 @@
             if (selectedUserItem) {
                 selectedUserItem.classList.add('selected');
                 showChatPanel(username);
-                // Set the recipient_id in the form
                 document.getElementById('recipient_id').value = userid;
             }
         }
 
         function showChatPanel(username) {
-            // Hide all chat panels
             document.querySelectorAll('.chat-messages').forEach(panel => {
                 panel.style.display = 'none';
             });
 
-            // Show the selected user's chat panel
             let chatPanel = document.getElementById(`chat-panel-${username}`);
             if (chatPanel) {
                 chatPanel.style.display = 'block';
                 chatPanel.scrollTop = chatPanel.scrollHeight;
             } 
+        }
+
+        function addMessageToChat(message) {
+            let chatPanel = document.getElementById(`chat-panel-${document.querySelector('.user-item.selected').dataset.username}`);
+            if (chatPanel) {
+                let messageDiv = document.createElement('div');
+                messageDiv.className = message.sender_id === {{ auth()->id() }} ? 'admin' : 'others';
+                messageDiv.innerHTML = `
+                    <p>${message.sender_id === {{ auth()->id() }} ? 'You' : document.querySelector('.user-item.selected').dataset.username}</p>
+                    <p>${message.message}</p>
+                `;
+                chatPanel.appendChild(messageDiv);
+                chatPanel.scrollTop = chatPanel.scrollHeight;
+            }
+        }
+
+        function updateChatList(message) {
+            let userItem = document.querySelector(`.user-item[data-userid="${message.sender_id === {{ auth()->id() }} ? message.recipient_id : message.sender_id}"]`);
+            if (userItem) {
+                let recentMessage = userItem.querySelector('.recent-message');
+                recentMessage.innerHTML = `<span class="last-sender">You:</span> ${message.message.substring(0, 30)}${message.message.length > 30 ? '...' : ''}`;
+                userItem.parentNode.prepend(userItem);
+            }
         }
     </script>
 </body>
@@ -162,5 +262,4 @@
 @section('title')
     Messages
 @endsection
-
 </x-app-layout>

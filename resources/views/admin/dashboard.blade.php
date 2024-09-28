@@ -16,6 +16,28 @@
         </div>
     </div>
 
+    <div class="h-64 bg-white rounded-lg p-5 m-10 shadow-sm">
+        <div class="flex justify-between items-center">
+            <h1 class="font-bold text-xl pb-5">Inventory</h1>
+            <a href="#" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white">Add</a>
+        </div>
+        <table class="min-width-screen">
+            <thead>
+                <tr>
+                    <th class="font-semibold">Name</th>
+                    <th class="font-semibold px-2">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </td>
+            </tbody>
+        </table>
+    </div>
+
 @section('title')
     Dashboard
 @endsection
